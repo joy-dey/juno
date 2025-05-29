@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { SocketService } from '../../services/socket.service';
 
 type Message = {
   text: string;
@@ -26,14 +27,28 @@ export class ChatComponent {
   messageForm = new FormGroup({
     message: new FormControl('', Validators.required),
   });
+  constructor(private _socketService: SocketService) {
+    _socketService.message$.subscribe((message) => {
+      this.messages.push({
+        from: 'bot',
+        text: message.text,
+      });
+    });
+  }
+
+  ngOnInit() {
+    this._socketService.connect(
+      'http://10.10.10.133:8260/admin_socket?authorization=tanay'
+    );
+  }
 
   sendMessage() {
-    console.log(this.messageForm.value);
     if (this.messageForm.value.message) {
       this.messages.push({
         text: this.messageForm.value.message,
         from: 'user',
       });
+      this._socketService.sendMessage(this.messageForm.value.message);
       this.messageForm.reset();
     }
   }
