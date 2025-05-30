@@ -1,13 +1,13 @@
 @if (!isMinimized) {
 <div
-  class="border justify-center items-center border-slate-100 md:rounded-4xl fixed top-0 bottom-0 md:top-[unset] md:right-6 md:bottom-24 bg-white starting:scale-0 scale-100 shadow-xl transition-all duration-300 ease-in-out origin-bottom z-[99] w-dvw h-dvh md:w-md md:h-[550px]"
+  class="juno:border juno:justify-center juno:items-center juno:border-slate-100 juno:md:rounded-4xl juno:fixed juno:top-0 juno:bottom-0 juno:md:top-[unset] juno:md:right-6 juno:md:bottom-24 juno:bg-white juno:starting:scale-0 juno:scale-100 juno:shadow-xl juno:transition-all juno:duration-300 juno:ease-in-out juno:origin-bottom juno:z-[99] juno:w-dvw juno:h-dvh juno:md:w-md juno:md:h-[550px]"
 >
   <div
-    class="border-b border-slate-100 px-4 py-3 flex justify-between w-full items-center"
+    class="juno:border-b juno:border-slate-100 juno:px-4 juno:py-3 juno:flex juno:justify-between juno:w-full juno:items-center"
   >
-    <div class="flex items-center gap-2.5">
+    <div class="juno:flex juno:items-center juno:gap-2.5">
       <svg
-        class="w-7 h-7"
+        class="juno:w-7 juno:h-7"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -31,9 +31,9 @@
           </linearGradient>
         </defs>
       </svg>
-      <div class="flex flex-col">
-        <p class="text-lg leading-tight font-sans">Juno</p>
-        <small class="text-slate-400 text-xs font-sans"
+      <div class="juno:flex juno:flex-col">
+        <p class="juno:text-lg juno:leading-tight juno:font-sans">Juno</p>
+        <small class="juno:text-slate-400 juno:text-xs juno:font-sans"
           >The AI Powered Assistant</small
         >
       </div>
@@ -68,13 +68,13 @@
     </button>
     <button
       (click)="toggleMinimize()"
-      class="flex md:hidden hover:bg-slate-100 cursor-pointer justify-center items-center w-10 h-10 rounded-xl"
+      class="juno:flex juno:md:hidden juno:hover:bg-slate-100 juno:cursor-pointer juno:justify-center juno:items-center juno:w-10 juno:h-10 juno:rounded-xl"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        class="w-5 h-5 select-none pointer-events-none"
+        class="juno:w-5 juno:h-5 juno:select-none juno:pointer-events-none"
       >
         <path
           d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"
@@ -83,38 +83,44 @@
     </button>
   </div>
 
-  <div class="p-4 flex flex-col w-full gap-2 overflow-y-auto h-10/12 pb-16">
+  <div
+    class="juno:p-4 juno:flex juno:flex-col juno:w-full juno:gap-2 juno:overflow-y-auto juno:h-10/12 juno:pb-16"
+  >
     @for (message of messages; track $index) { @if (message.from === 'user') {
-    <div class="bg-black text-white w-fit ml-auto px-4 py-3 rounded-3xl">
+    <div
+      class="juno:bg-black juno:text-white juno:w-fit juno:ml-auto juno:px-4 juno:py-3 juno:rounded-3xl"
+    >
       {{ message.text }}
     </div>
     } @else {
-    <div class="bg-stone-100 text-gray-800 w-fit px-4 py-3 rounded-3xl">
+    <div
+      class="juno:bg-stone-100 juno:text-gray-800 juno:w-fit juno:px-4 juno:py-3 juno:rounded-3xl"
+    >
       {{ message.text }}
     </div>
     } }
   </div>
 
-  <div class="fixed bottom-4 w-full px-4">
+  <div class="juno:fixed juno:bottom-4 juno:w-full juno:px-4">
     <div
-      class="border border-slate-200 relative bg-white focus-within:border-slate-900 rounded-3xl overflow-clip"
+      class="juno:border juno:border-slate-200 juno:relative juno:bg-white juno:focus-within:border-slate-900 juno:rounded-3xl juno:overflow-clip"
     >
       <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
         <input
           type="text"
-          class="w-full focus:border-0 focus:outline-0 p-3.5 text-sm placeholder:text-slate-500"
+          class="juno:w-full juno:focus:border-0 juno:focus:outline-0 juno:p-3.5 juno:text-sm juno:placeholder:text-slate-500"
           placeholder="Message..."
           formControlName="message"
         />
         <button
           type="submit"
-          class="absolute group top-2 cursor-pointer right-2 bg-slate-950 rounded-full ml-auto w-8 h-8 flex justify-center items-center"
+          class="juno:absolute juno:group juno:top-2 juno:cursor-pointer juno:right-2 juno:bg-slate-950 juno:rounded-full juno:ml-auto juno:w-8 juno:h-8 juno:flex juno:justify-center juno:items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-4 h-4 fill-white"
+            class="juno:w-4 juno:h-4 juno:fill-white"
           >
             <path
               d="M1.94607 9.31543C1.42353 9.14125 1.4194 8.86022 1.95682 8.68108L21.043 2.31901C21.5715 2.14285 21.8746 2.43866 21.7265 2.95694L16.2733 22.0432C16.1223 22.5716 15.8177 22.59 15.5944 22.0876L11.9999 14L17.9999 6.00005L9.99992 12L1.94607 9.31543Z"
@@ -127,7 +133,7 @@
 </div>
 }
 <button
-  class="w-14 h-14 rounded-full fixed bottom-6 bg-slate-900 flex justify-center items-center transition-transform duration-200 ease-in-out cursor-pointer right-6 hover:scale-110 z-50"
+  class="juno:w-14 juno:h-14 juno:rounded-full juno:fixed juno:bottom-6 juno:bg-slate-900 juno:flex juno:justify-center juno:items-center juno:transition-transform juno:duration-200 juno:ease-in-out juno:cursor-pointer juno:right-6 juno:hover:scale-110 juno:z-50"
   title="Talk with Juno"
   (click)="toggleMinimize()"
 >
@@ -136,7 +142,7 @@
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    class="fill-white w-6 h-6 transition-transform duration-200 ease-in-out starting:scale-0 scale-100"
+    class="juno:fill-white juno:w-6 h-6 juno:transition-transform juno:duration-200 juno:ease-in-out juno:starting:scale-0 juno:scale-100"
   >
     <path
       d="M20.7134 8.12811L20.4668 8.69379C20.2864 9.10792 19.7136 9.10792 19.5331 8.69379L19.2866 8.12811C18.8471 7.11947 18.0555 6.31641 17.0677 5.87708L16.308 5.53922C15.8973 5.35653 15.8973 4.75881 16.308 4.57612L17.0252 4.25714C18.0384 3.80651 18.8442 2.97373 19.2761 1.93083L19.5293 1.31953C19.7058 0.893489 20.2942 0.893489 20.4706 1.31953L20.7238 1.93083C21.1558 2.97373 21.9616 3.80651 22.9748 4.25714L23.6919 4.57612C24.1027 4.75881 24.1027 5.35653 23.6919 5.53922L22.9323 5.87708C21.9445 6.31641 21.1529 7.11947 20.7134 8.12811ZM20 11C20.6986 11 21.3694 10.8806 21.9929 10.6611C21.9976 10.7735 22 10.8865 22 11C22 15.4183 18.4183 19 14 19V22.5C9 20.5 2 17.5 2 11C2 6.58172 5.58172 3 10 3H14C14.1135 3 14.2265 3.00237 14.3389 3.00705C14.1194 3.63061 14 4.30136 14 5C14 8.31371 16.6863 11 20 11Z"
@@ -147,7 +153,7 @@
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    class="fill-white w-6 h-6 transition-transform duration-300 ease-in-out starting:scale-0 starting:-rotate-90 scale-100 rotate-0"
+    class="juno:fill-white juno:w-6 juno:h-6 juno:transition-transform juno:duration-300 juno:ease-in-out juno:starting:scale-0 juno:starting:-rotate-90 juno:scale-100 juno:rotate-0"
   >
     <path
       d="M12 15.6315L20.9679 10.8838L20.0321 9.11619L12 13.3685L3.9679 9.11619L3.03212 10.8838L12 15.6315Z"
