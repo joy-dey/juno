@@ -1,0 +1,46 @@
+:host {
+  --background-color: #c9ff07;
+  --border-color: transparent;
+  --height: 48px;
+  --width: 48px;
+  --border-width: 1px;
+  --border-radius: 100%;
+  --border-style: solid;
+  --position-top: auto;
+  --position-right: 1rem;
+  --position-bottom: 1rem;
+  --position-left: auto;
+
+  /* hover */
+  --hover-scale: 1.25;
+
+  /* icon */
+  --fill: #ffffff;
+}
+
+.juno-fab {
+  background-color: var(--background-color);
+  width: var(--width);
+  height: var(--height);
+  border-radius: var(--border-radius);
+  border: var(--border-width) var(--border-style) var(--border-color);
+  cursor: pointer;
+  position: fixed;
+  top: var(--position-top);
+  right: var(--position-right);
+  bottom: var(--position-bottom);
+  left: var(--position-left);
+  transition: transform 200ms ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    fill: var(--fill);
+    mix-blend-mode: difference;
+  }
+
+  &:hover {
+    transform: scale(var(--hover-scale));
+  }
+}
