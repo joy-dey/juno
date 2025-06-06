@@ -6,6 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface ChatArea {
+    }
+    interface ChatBubble {
+    }
     interface ChatWidget {
     }
     interface MyComponent {
@@ -24,6 +28,18 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLChatAreaElement extends Components.ChatArea, HTMLStencilElement {
+    }
+    var HTMLChatAreaElement: {
+        prototype: HTMLChatAreaElement;
+        new (): HTMLChatAreaElement;
+    };
+    interface HTMLChatBubbleElement extends Components.ChatBubble, HTMLStencilElement {
+    }
+    var HTMLChatBubbleElement: {
+        prototype: HTMLChatBubbleElement;
+        new (): HTMLChatBubbleElement;
+    };
     interface HTMLChatWidgetElement extends Components.ChatWidget, HTMLStencilElement {
     }
     var HTMLChatWidgetElement: {
@@ -37,11 +53,17 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "chat-area": HTMLChatAreaElement;
+        "chat-bubble": HTMLChatBubbleElement;
         "chat-widget": HTMLChatWidgetElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface ChatArea {
+    }
+    interface ChatBubble {
+    }
     interface ChatWidget {
     }
     interface MyComponent {
@@ -59,6 +81,8 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "chat-area": ChatArea;
+        "chat-bubble": ChatBubble;
         "chat-widget": ChatWidget;
         "my-component": MyComponent;
     }
@@ -67,6 +91,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "chat-area": LocalJSX.ChatArea & JSXBase.HTMLAttributes<HTMLChatAreaElement>;
+            "chat-bubble": LocalJSX.ChatBubble & JSXBase.HTMLAttributes<HTMLChatBubbleElement>;
             "chat-widget": LocalJSX.ChatWidget & JSXBase.HTMLAttributes<HTMLChatWidgetElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
