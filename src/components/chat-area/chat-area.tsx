@@ -49,6 +49,7 @@ export class ChatArea {
             {this.messages.map(({ type, message }) => (
               <chat-bubble type={type} message={message}></chat-bubble>
             ))}
+            <slot></slot>
           </div>
           <div class="juno-chat-footer">
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
