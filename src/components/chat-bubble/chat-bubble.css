@@ -20,5 +20,6 @@
   min-width: 2ch;
   p {
     margin: 0;
+    font-size: 14px;
   }
 }
