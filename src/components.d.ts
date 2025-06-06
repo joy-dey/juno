@@ -7,8 +7,14 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface ChatArea {
+        "messages": { type: 'user' | 'bot'; message: string }[];
     }
     interface ChatBubble {
+        "message": string;
+        /**
+          * @default 'bot'
+         */
+        "type": 'bot' | 'user';
     }
     interface ChatWidget {
     }
@@ -27,8 +33,23 @@ export namespace Components {
         "middle": string;
     }
 }
+export interface ChatAreaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLChatAreaElement;
+}
 declare global {
+    interface HTMLChatAreaElementEventMap {
+        "sentMessage": string;
+    }
     interface HTMLChatAreaElement extends Components.ChatArea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLChatAreaElementEventMap>(type: K, listener: (this: HTMLChatAreaElement, ev: ChatAreaCustomEvent<HTMLChatAreaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLChatAreaElementEventMap>(type: K, listener: (this: HTMLChatAreaElement, ev: ChatAreaCustomEvent<HTMLChatAreaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLChatAreaElement: {
         prototype: HTMLChatAreaElement;
@@ -61,8 +82,15 @@ declare global {
 }
 declare namespace LocalJSX {
     interface ChatArea {
+        "messages"?: { type: 'user' | 'bot'; message: string }[];
+        "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
     }
     interface ChatBubble {
+        "message"?: string;
+        /**
+          * @default 'bot'
+         */
+        "type"?: 'bot' | 'user';
     }
     interface ChatWidget {
     }
