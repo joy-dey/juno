@@ -32,6 +32,8 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface TypingIndicator {
+    }
 }
 export interface ChatAreaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -73,11 +75,18 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLTypingIndicatorElement extends Components.TypingIndicator, HTMLStencilElement {
+    }
+    var HTMLTypingIndicatorElement: {
+        prototype: HTMLTypingIndicatorElement;
+        new (): HTMLTypingIndicatorElement;
+    };
     interface HTMLElementTagNameMap {
         "chat-area": HTMLChatAreaElement;
         "chat-bubble": HTMLChatBubbleElement;
         "chat-widget": HTMLChatWidgetElement;
         "my-component": HTMLMyComponentElement;
+        "typing-indicator": HTMLTypingIndicatorElement;
     }
 }
 declare namespace LocalJSX {
@@ -108,11 +117,14 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface TypingIndicator {
+    }
     interface IntrinsicElements {
         "chat-area": ChatArea;
         "chat-bubble": ChatBubble;
         "chat-widget": ChatWidget;
         "my-component": MyComponent;
+        "typing-indicator": TypingIndicator;
     }
 }
 export { LocalJSX as JSX };
@@ -123,6 +135,7 @@ declare module "@stencil/core" {
             "chat-bubble": LocalJSX.ChatBubble & JSXBase.HTMLAttributes<HTMLChatBubbleElement>;
             "chat-widget": LocalJSX.ChatWidget & JSXBase.HTMLAttributes<HTMLChatWidgetElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "typing-indicator": LocalJSX.TypingIndicator & JSXBase.HTMLAttributes<HTMLTypingIndicatorElement>;
         }
     }
 }

@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.juno-typing-indicator {
+  background-color: #f1f5f9;
+  padding: 12px 16px;
+  width: fit-content;
+  min-width: 2ch;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 0 10px 10px 10px;
+
+  .dancing-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #000;
+    border-radius: 100%;
+    animation: bounce 1s infinite;
+    animation-delay: 100ms;
+    &:nth-child(2) {
+      animation-delay: 200ms;
+    }
+    &:last-child {
+      animation-delay: 300ms;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    transform: translateY(-25%);
+  }
+  50% {
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transform: none;
+  }
+}
