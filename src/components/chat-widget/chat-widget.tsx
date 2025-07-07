@@ -1,4 +1,4 @@
-import { Component, Host, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, State, h } from '@stencil/core';
 
 @Component({
   tag: 'chat-widget',
@@ -18,6 +18,9 @@ export class ChatWidget {
   ];
   @State() isMinimized: boolean = true;
   @State() isBotTyping: boolean = false;
+  @State() isSocketConnected: boolean = false;
+
+  @Event() socketChangeStatus: EventEmitter<boolean>;
 
   connectedCallback() {
     console.log('%cInitialized%c Juno initialized', 'color: white; font-size: 10px; background: #762fff; padding: .25rem .5rem; border-radius: .35rem', '');
@@ -31,6 +34,7 @@ export class ChatWidget {
     this.socket = new WebSocket('');
 
     this.socket.onopen = event => {
+      this.isSocketConnected = true;
       console.log(
         `%c[WebSocket]%c Connected: ${event.type}`,
         'color: #000; font-weight: medium; font-size: 10px; background: #c9ff07; padding: .25rem .5rem; border-radius: .35rem',
@@ -46,6 +50,7 @@ export class ChatWidget {
 
     this.socket.onclose = event => {
       console.log('[WebSocket] Closed:', event.code, event.reason);
+      this.isSocketConnected = false;
 
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
@@ -57,6 +62,8 @@ export class ChatWidget {
     };
 
     this.socket.onerror = event => {
+      this.isSocketConnected = false;
+
       console.log('[WebSocket] Error:', event);
     };
   }
@@ -78,7 +85,7 @@ export class ChatWidget {
     return (
       <Host>
         {!this.isMinimized && (
-          <chat-area messages={this.messages} onSentMessage={event => this.sendMessage(event.detail)}>
+          <chat-area messages={this.messages} onSentMessage={event => this.sendMessage(event.detail)} isSocketConnected={this.isSocketConnected}>
             {this.isBotTyping && <typing-indicator></typing-indicator>}
           </chat-area>
         )}
