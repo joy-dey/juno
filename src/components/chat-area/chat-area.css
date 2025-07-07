@@ -48,6 +48,37 @@
     p {
       margin: 0;
     }
+
+    .juno-status-indicator {
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      margin-left: auto;
+      cursor: pointer;
+      .status {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 100%;
+      }
+
+      &:is(.online) {
+        background-color: oklch(0.967 0.067 122.328);
+
+        .status {
+          background-color: oklch(0.768 0.233 130.85);
+        }
+      }
+      &:is(.offline) {
+        background-color: oklch(0.984 0.003 247.858);
+
+        .status {
+          background-color: oklch(0.704 0.04 256.788);
+        }
+      }
+    }
   }
 
   .juno-chat-container {

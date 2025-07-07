@@ -7,6 +7,7 @@ import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 })
 export class ChatArea {
   @Prop() messages: { type: 'user' | 'bot'; message: string }[];
+  @Prop() isSocketConnected: boolean = false;
 
   @Event() sentMessage: EventEmitter<string>;
 
@@ -42,6 +43,9 @@ export class ChatArea {
             <div class="brand-info">
               <p>Juno</p>
               <small>Your not-so-smart assistant</small>
+            </div>
+            <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
+              <div class="status"></div>
             </div>
           </div>
           <div class="juno-chat-container">
