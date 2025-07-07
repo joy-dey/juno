@@ -10,6 +10,10 @@ export namespace Components {
         /**
           * @default false
          */
+        "isBotTyping": boolean;
+        /**
+          * @default false
+         */
         "isSocketConnected": boolean;
         "messages": { type: 'user' | 'bot'; message: string }[];
     }
@@ -110,6 +114,10 @@ declare global {
 }
 declare namespace LocalJSX {
     interface ChatArea {
+        /**
+          * @default false
+         */
+        "isBotTyping"?: boolean;
         /**
           * @default false
          */
