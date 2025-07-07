@@ -83,7 +83,7 @@ export class ChatArea {
               </svg>
             </div>
             <div class="brand-info">
-              <p>Dibyendu</p>
+              <p>Juno</p>
               <small>Your not-so-smart assistant</small>
             </div>
             <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
