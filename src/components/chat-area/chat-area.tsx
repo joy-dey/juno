@@ -21,6 +21,14 @@ export class ChatArea {
     }
   }
 
+  private chatContainerEl?: HTMLDivElement;
+
+  componentDidRender() {
+    if (this.chatContainerEl) {
+      this.chatContainerEl.scrollTop = this.chatContainerEl.scrollHeight;
+    }
+  }
+
   private handleFormSubmit = (e: Event) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -51,14 +59,14 @@ export class ChatArea {
               </svg>
             </div>
             <div class="brand-info">
-              <p>Juno</p>
+              <p>Dibyendu</p>
               <small>Your not-so-smart assistant</small>
             </div>
             <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
               <div class="status"></div>
             </div>
           </div>
-          <div class="juno-chat-container">
+          <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
             <small class="juno-disclaimer">I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.</small>
             {this.messages.map(({ type, message }) => (
               <chat-bubble type={type} message={message}></chat-bubble>
