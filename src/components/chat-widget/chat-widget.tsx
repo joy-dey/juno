@@ -85,7 +85,7 @@ export class ChatWidget {
     return (
       <Host>
         {!this.isMinimized && (
-          <chat-area messages={this.messages} onSentMessage={event => this.sendMessage(event.detail)} isSocketConnected={this.isSocketConnected}>
+          <chat-area messages={this.messages} onSentMessage={event => this.sendMessage(event.detail)} isSocketConnected={this.isSocketConnected} isBotTyping={this.isBotTyping}>
             {this.isBotTyping && <typing-indicator></typing-indicator>}
           </chat-area>
         )}
