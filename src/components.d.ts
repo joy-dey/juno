@@ -18,6 +18,9 @@ export namespace Components {
         "messages": { type: 'user' | 'bot'; message: string }[];
     }
     interface ChatBubble {
+        /**
+          * @default ''
+         */
         "message": string;
         /**
           * @default 'bot'
@@ -54,6 +57,7 @@ export interface ChatWidgetCustomEvent<T> extends CustomEvent<T> {
 declare global {
     interface HTMLChatAreaElementEventMap {
         "sentMessage": string;
+        "requestClose": void;
     }
     interface HTMLChatAreaElement extends Components.ChatArea, HTMLStencilElement {
         addEventListener<K extends keyof HTMLChatAreaElementEventMap>(type: K, listener: (this: HTMLChatAreaElement, ev: ChatAreaCustomEvent<HTMLChatAreaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -123,9 +127,13 @@ declare namespace LocalJSX {
          */
         "isSocketConnected"?: boolean;
         "messages"?: { type: 'user' | 'bot'; message: string }[];
+        "onRequestClose"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
     }
     interface ChatBubble {
+        /**
+          * @default ''
+         */
         "message"?: string;
         /**
           * @default 'bot'
