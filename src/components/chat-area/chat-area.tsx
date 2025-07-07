@@ -13,6 +13,10 @@ export class ChatArea {
   @State() isLoading: boolean = false;
 
   @Event() sentMessage: EventEmitter<string>;
+  @Event() requestClose: EventEmitter<void>;
+
+  private chatContainerEl?: HTMLDivElement;
+  private hostElement: HTMLElement;
 
   @Watch('isBotTyping')
   handleBotTyping(newVal: boolean) {
@@ -20,6 +24,34 @@ export class ChatArea {
       this.isLoading = false;
     }
   }
+
+  componentDidLoad() {
+    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('keydown', this.handleEscape);
+  }
+
+  componentDidRender() {
+    if (this.chatContainerEl) {
+      this.chatContainerEl.scrollTop = this.chatContainerEl.scrollHeight;
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('keydown', this.handleEscape);
+  }
+
+  private handleClickOutside = (event: MouseEvent) => {
+    if (!this.hostElement.contains(event.target as Node)) {
+      this.requestClose.emit();
+    }
+  };
+
+  private handleEscape = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.requestClose.emit();
+    }
+  };
 
   private handleFormSubmit = (e: Event) => {
     e.preventDefault();
@@ -32,7 +64,7 @@ export class ChatArea {
   };
   render() {
     return (
-      <Host>
+      <Host ref={el => (this.hostElement = el)}>
         <div class="juno-chat-area">
           <div class="juno-chat-header">
             <div class="juno-brand-logo">
@@ -58,7 +90,7 @@ export class ChatArea {
               <div class="status"></div>
             </div>
           </div>
-          <div class="juno-chat-container">
+          <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
             <small class="juno-disclaimer">I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.</small>
             {this.messages.map(({ type, message }) => (
               <chat-bubble type={type} message={message}></chat-bubble>

@@ -88,6 +88,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.725rem;
+    scroll-behavior: smooth;
 
     &::-webkit-scrollbar {
       display: none;
