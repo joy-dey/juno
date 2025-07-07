@@ -19,8 +19,10 @@
   width: fit-content;
   min-width: 2ch;
   max-width: 80%;
+  text-wrap: balance;
   p {
     margin: 0;
     font-size: 14px;
+    word-wrap: break-word;
   }
 }
