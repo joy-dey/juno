@@ -4,7 +4,7 @@
 
 .juno-typing-indicator {
   background-color: #f1f5f9;
-  padding: 12px 16px;
+  padding: 16px;
   width: fit-content;
   min-width: 2ch;
   display: flex;
