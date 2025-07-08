@@ -9,6 +9,7 @@ export class ChatWidget {
   private socket: WebSocket | null = null;
   private reconnectAttempts: number = 0;
   private readonly maxReconnectAttempts = 50;
+  private responseTimeout: any = null;
 
   @State() messages: { type: 'user' | 'bot'; message: string }[] = [
     {
@@ -45,6 +46,7 @@ export class ChatWidget {
     this.socket.onmessage = event => {
       console.log('[WebSocket] Message received:', event.data);
       this.isBotTyping = false;
+      clearTimeout(this.responseTimeout);
       this.messages = [...this.messages, { type: 'bot', message: event.data }];
     };
 
@@ -78,14 +80,36 @@ export class ChatWidget {
       this.socket.send(message);
       this.isBotTyping = true;
       this.messages = [...this.messages, { type: 'user', message: message }];
+      this.setResponseTimeout();
     }
+  }
+
+  private setResponseTimeout() {
+    clearTimeout(this.responseTimeout);
+
+    this.responseTimeout = setTimeout(() => {
+      this.isBotTyping = false;
+      this.messages = [
+        ...this.messages,
+        {
+          type: 'bot',
+          message: 'Something went wrong! Please retry',
+        },
+      ];
+    }, 120000);
   }
 
   render() {
     return (
       <Host>
         {!this.isMinimized && (
-          <chat-area messages={this.messages} onSentMessage={event => this.sendMessage(event.detail)} isSocketConnected={this.isSocketConnected} isBotTyping={this.isBotTyping}>
+          <chat-area
+            messages={this.messages}
+            onSentMessage={event => this.sendMessage(event.detail)}
+            isSocketConnected={this.isSocketConnected}
+            isBotTyping={this.isBotTyping}
+            onRequestClose={() => (this.isMinimized = true)}
+          >
             {this.isBotTyping && <typing-indicator></typing-indicator>}
           </chat-area>
         )}
