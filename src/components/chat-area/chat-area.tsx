@@ -15,7 +15,10 @@ export class ChatArea {
 
   @Event() sentMessage: EventEmitter<string>;
   @Event() requestClose: EventEmitter<void>;
+  @State() transcript: string = '';
+  @State() isRecognizing: boolean = false;
 
+  private recognition: any;
   private chatContainerEl?: HTMLDivElement;
   private hostElement: HTMLElement;
 
@@ -29,7 +32,50 @@ export class ChatArea {
   componentDidLoad() {
     document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleEscape);
+
+    // speech recognition
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      this.recognition = new SpeechRecognition();
+      this.recognition.lang = 'en-US';
+      this.recognition.interimResults = true;
+      this.recognition.maxAlternatives = 1;
+
+      this.recognition.onstart = () => {
+        this.isRecognizing = true;
+        console.log('recognition started');
+      };
+      this.recognition.onresult = event => {
+        const result = event.results[0][0].transcript;
+        this.transcript = result;
+      };
+
+      this.recognition.onend = () => {
+        this.isRecognizing = false;
+        console.log('Recognition ended');
+      };
+
+      this.recognition.onerror = event => {
+        console.error('Speech recognition error', event.error);
+        this.isRecognizing = false;
+      };
+    } else {
+      console.warn('Speech Recognition not supported in this browser.');
+    }
   }
+
+  startRecognition = () => {
+    if (this.recognition && !this.isRecognizing) {
+      this.recognition.start();
+    }
+  };
+
+  stopRecognition = () => {
+    if (this.recognition && this.isRecognizing) {
+      this.recognition.stop();
+    }
+  };
 
   componentDidRender() {
     if (this.chatContainerEl) {
@@ -55,15 +101,22 @@ export class ChatArea {
     }
   };
 
+  private handleUserInput = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    this.transcript = target.value;
+  };
+
   private handleFormSubmit = (e: Event) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData: FormData = new FormData(form);
     this.isLoading = true;
     this.sentMessage.emit(formData.get('message').toString());
+    this.transcript = '';
 
     form.reset();
   };
+
   render() {
     return (
       <Host ref={el => (this.hostElement = el)}>
@@ -114,18 +167,35 @@ export class ChatArea {
           </div>
           <div class="juno-chat-footer">
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
-              <input type="text" name="message" id="message" placeholder="Type your message here..." />
-              <button type="submit" disabled={this.isLoading || !this.isSocketConnected}>
-                {this.isLoading ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="spin">
-                    <path d="M12 2C12.5523 2 13 2.44772 13 3V6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6V3C11 2.44772 11.4477 2 12 2ZM12 17C12.5523 17 13 17.4477 13 18V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V18C11 17.4477 11.4477 17 12 17ZM22 12C22 12.5523 21.5523 13 21 13H18C17.4477 13 17 12.5523 17 12C17 11.4477 17.4477 11 18 11H21C21.5523 11 22 11.4477 22 12ZM7 12C7 12.5523 6.55228 13 6 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H6C6.55228 11 7 11.4477 7 12ZM19.0711 19.0711C18.6805 19.4616 18.0474 19.4616 17.6569 19.0711L15.5355 16.9497C15.145 16.5592 15.145 15.9261 15.5355 15.5355C15.9261 15.145 16.5592 15.145 16.9497 15.5355L19.0711 17.6569C19.4616 18.0474 19.4616 18.6805 19.0711 19.0711ZM8.46447 8.46447C8.07394 8.85499 7.44078 8.85499 7.05025 8.46447L4.92893 6.34315C4.53841 5.95262 4.53841 5.31946 4.92893 4.92893C5.31946 4.53841 5.95262 4.53841 6.34315 4.92893L8.46447 7.05025C8.85499 7.44078 8.85499 8.07394 8.46447 8.46447ZM4.92893 19.0711C4.53841 18.6805 4.53841 18.0474 4.92893 17.6569L7.05025 15.5355C7.44078 15.145 8.07394 15.145 8.46447 15.5355C8.85499 15.9261 8.85499 16.5592 8.46447 16.9497L6.34315 19.0711C5.95262 19.4616 5.31946 19.4616 4.92893 19.0711ZM15.5355 8.46447C15.145 8.07394 15.145 7.44078 15.5355 7.05025L17.6569 4.92893C18.0474 4.53841 18.6805 4.53841 19.0711 4.92893C19.4616 5.31946 19.4616 5.95262 19.0711 6.34315L16.9497 8.46447C16.5592 8.85499 15.9261 8.85499 15.5355 8.46447Z"></path>
-                  </svg>
+              <input type="text" name="message" id="message" value={this.transcript} placeholder="Ask anything" onInput={event => this.handleUserInput(event)} />
+
+              {this.transcript.trim() === '' ? (
+                !this.isRecognizing ? (
+                  <button type="button" onClick={() => this.startRecognition()} title="Dictate">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.0001 1C14.7615 1 17.0001 3.23858 17.0001 6V12C17.0001 14.7614 14.7615 17 12.0001 17C9.23865 17 7.00008 14.7614 7.00008 12V6C7.00008 3.23858 9.23865 1 12.0001 1ZM2.19238 13.9615L4.15392 13.5692C4.88321 17.2361 8.11888 20 12.0001 20C15.8813 20 19.1169 17.2361 19.8462 13.5692L21.8078 13.9615C20.8961 18.5452 16.8516 22 12.0001 22C7.14858 22 3.104 18.5452 2.19238 13.9615Z"></path>
+                    </svg>
+                  </button>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M21.7267 2.95694L16.2734 22.0432C16.1225 22.5716 15.7979 22.5956 15.5563 22.1126L11 13L1.9229 9.36919C1.41322 9.16532 1.41953 8.86022 1.95695 8.68108L21.0432 2.31901C21.5716 2.14285 21.8747 2.43866 21.7267 2.95694ZM19.0353 5.09647L6.81221 9.17085L12.4488 11.4255L15.4895 17.5068L19.0353 5.09647Z"></path>
-                  </svg>
-                )}
-              </button>
+                  <button type="button" onClick={() => this.stopRecognition()} title="Stop Dictation">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6 5H18C18.5523 5 19 5.44772 19 6V18C19 18.5523 18.5523 19 18 19H6C5.44772 19 5 18.5523 5 18V6C5 5.44772 5.44772 5 6 5Z"></path>
+                    </svg>
+                  </button>
+                )
+              ) : (
+                <button type="submit" disabled={this.isLoading || !this.isSocketConnected}>
+                  {this.isLoading ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="spin">
+                      <path d="M12 2C12.5523 2 13 2.44772 13 3V6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6V3C11 2.44772 11.4477 2 12 2ZM12 17C12.5523 17 13 17.4477 13 18V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V18C11 17.4477 11.4477 17 12 17ZM22 12C22 12.5523 21.5523 13 21 13H18C17.4477 13 17 12.5523 17 12C17 11.4477 17.4477 11 18 11H21C21.5523 11 22 11.4477 22 12ZM7 12C7 12.5523 6.55228 13 6 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H6C6.55228 11 7 11.4477 7 12ZM19.0711 19.0711C18.6805 19.4616 18.0474 19.4616 17.6569 19.0711L15.5355 16.9497C15.145 16.5592 15.145 15.9261 15.5355 15.5355C15.9261 15.145 16.5592 15.145 16.9497 15.5355L19.0711 17.6569C19.4616 18.0474 19.4616 18.6805 19.0711 19.0711ZM8.46447 8.46447C8.07394 8.85499 7.44078 8.85499 7.05025 8.46447L4.92893 6.34315C4.53841 5.95262 4.53841 5.31946 4.92893 4.92893C5.31946 4.53841 5.95262 4.53841 6.34315 4.92893L8.46447 7.05025C8.85499 7.44078 8.85499 8.07394 8.46447 8.46447ZM4.92893 19.0711C4.53841 18.6805 4.53841 18.0474 4.92893 17.6569L7.05025 15.5355C7.44078 15.145 8.07394 15.145 8.46447 15.5355C8.85499 15.9261 8.85499 16.5592 8.46447 16.9497L6.34315 19.0711C5.95262 19.4616 5.31946 19.4616 4.92893 19.0711ZM15.5355 8.46447C15.145 8.07394 15.145 7.44078 15.5355 7.05025L17.6569 4.92893C18.0474 4.53841 18.6805 4.53841 19.0711 4.92893C19.4616 5.31946 19.4616 5.95262 19.0711 6.34315L16.9497 8.46447C16.5592 8.85499 15.9261 8.85499 15.5355 8.46447Z"></path>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M1.94607 9.31543C1.42353 9.14125 1.4194 8.86022 1.95682 8.68108L21.043 2.31901C21.5715 2.14285 21.8746 2.43866 21.7265 2.95694L16.2733 22.0432C16.1223 22.5716 15.8177 22.59 15.5944 22.0876L11.9999 14L17.9999 6.00005L9.99992 12L1.94607 9.31543Z"></path>
+                    </svg>
+                  )}
+                </button>
+              )}
             </form>
           </div>
         </div>
