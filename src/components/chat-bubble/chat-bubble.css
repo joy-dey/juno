@@ -8,11 +8,17 @@
   border-radius: 0 10px 10px 10px;
   text-wrap: balance;
 }
-:host([data-type='user']) .juno-chat-bubble {
-  background-color: #212529;
-  color: #fff;
-  border-radius: 10px 10px 0 10px;
-  margin-left: auto;
+:host([data-type='user']) {
+  .juno-chat-bubble {
+    background-color: #212529;
+    color: #fff;
+    border-radius: 10px 10px 0 10px;
+    margin-left: auto;
+  }
+
+  .juno-chat-actions {
+    justify-content: flex-end;
+  }
 }
 
 .juno-chat-bubble {
@@ -20,10 +26,27 @@
   width: fit-content;
   min-width: 2ch;
   max-width: 80%;
+  cursor: pointer;
   p {
     margin: 0;
     font-size: 14px;
     word-wrap: break-word;
+  }
+}
+
+.juno-chat-actions {
+  margin-top: 0.25rem;
+  display: flex;
+  .chat-action {
+    background: transparent;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    svg {
+      width: 0.8rem;
+      height: 0.8rem;
+      fill: oklch(0.704 0.04 256.788);
+    }
   }
 }
 
