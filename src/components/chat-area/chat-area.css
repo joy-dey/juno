@@ -45,23 +45,27 @@
       }
     }
 
+    .flex-group {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
     p {
       margin: 0;
     }
 
     .juno-status-indicator {
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 0.5rem;
-      margin-left: auto;
       cursor: pointer;
       .status {
         width: 0.5rem;
         height: 0.5rem;
         border-radius: 100%;
+        scale: 1;
+        transition: all 0.3s ease-in-out;
+        @starting-style {
+          scale: 0;
+        }
       }
 
       &:is(.online) {

@@ -42,7 +42,8 @@ export class ChatArea {
   }
 
   private handleClickOutside = (event: MouseEvent) => {
-    if (!this.hostElement.contains(event.target as Node)) {
+    const path = event.composedPath();
+    if (!path.includes(this.hostElement)) {
       this.requestClose.emit();
     }
   };
@@ -83,11 +84,13 @@ export class ChatArea {
               </svg>
             </div>
             <div class="brand-info">
-              <p>Juno</p>
+              <div class="flex-group">
+                <p>Juno</p>
+                <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
+                  <div class="status"></div>
+                </div>
+              </div>
               <small>Your not-so-smart assistant</small>
-            </div>
-            <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
-              <div class="status"></div>
             </div>
           </div>
           <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
