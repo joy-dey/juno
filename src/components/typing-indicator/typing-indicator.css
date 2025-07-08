@@ -15,7 +15,7 @@
   .dancing-dot {
     width: 0.5rem;
     height: 0.5rem;
-    background-color: #000;
+    background-color: oklch(0.551 0.027 264.364);
     border-radius: 100%;
     animation: bounce 1s infinite;
     animation-delay: 100ms;
@@ -32,7 +32,7 @@
   0%,
   100% {
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    transform: translateY(-25%);
+    transform: translateY(-45%);
   }
   50% {
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
