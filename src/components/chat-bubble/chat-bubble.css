@@ -54,6 +54,13 @@
       width: 0.925rem;
       height: 0.925rem;
       fill: oklch(0.704 0.04 256.788);
+      transition: scale 0.2s ease-in-out;
+    }
+
+    &:hover {
+      svg {
+        scale: 1.1;
+      }
     }
   }
 }
