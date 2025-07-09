@@ -85,8 +85,12 @@
       }
     }
 
-    .juno-size-button {
+    .juno-buttons-container {
       margin-left: auto;
+      display: flex;
+      gap: 0.25rem;
+    }
+    .juno-size-button {
       width: 2rem;
       height: 2rem;
       border: 0;
@@ -100,7 +104,11 @@
         fill: oklch(0.554 0.046 257.417);
         width: 1rem;
         height: 1rem;
+        margin-bottom: 0;
       }
+    }
+    .close-button {
+      display: none;
     }
   }
 
@@ -197,6 +205,16 @@
     height: 100svh;
     max-width: none;
     border-radius: 0;
+
+    .juno-chat-header {
+      .maximize-button {
+        display: none;
+      }
+
+      .close-button {
+        display: block;
+      }
+    }
   }
 
   .juno-chat-area.maximized {

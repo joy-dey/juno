@@ -12,11 +12,11 @@ export class ChatArea {
 
   @State() isLoading: boolean = false;
   @State() isMaximized: boolean = false;
+  @State() transcript: string = '';
+  @State() isRecognizing: boolean = false;
 
   @Event() sentMessage: EventEmitter<string>;
   @Event() requestClose: EventEmitter<void>;
-  @State() transcript: string = '';
-  @State() isRecognizing: boolean = false;
 
   private recognition: any;
   private chatContainerEl?: HTMLDivElement;
@@ -106,6 +106,10 @@ export class ChatArea {
     this.transcript = target.value;
   };
 
+  private handleClose = () => {
+    this.requestClose.emit();
+  };
+
   private handleFormSubmit = (e: Event) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -146,17 +150,24 @@ export class ChatArea {
               </div>
               <small>Your not-so-smart assistant</small>
             </div>
-            <button class="juno-size-button" onClick={() => (this.isMaximized = !this.isMaximized)}>
-              {!this.isMaximized ? (
+            <div class="juno-buttons-container">
+              <button class="juno-size-button maximize-button" onClick={() => (this.isMaximized = !this.isMaximized)}>
+                {!this.isMaximized ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.41421 5H10V3H3V10H5V6.41421L9.29289 10.7071L10.7071 9.29289L6.41421 5ZM21 14H19V17.5858L14.7071 13.2929L13.2929 14.7071L17.5858 19H14V21H21V14Z"></path>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9.00008 4.00008H11.0001V11.0001H4.00008V9.00008H7.58586L3.29297 4.70718L4.70718 3.29297L9.00008 7.58586V4.00008ZM20 15H16.4142L20.7071 19.2929L19.2929 20.7071L15 16.4142V20H13V13H20V15Z"></path>
+                  </svg>
+                )}
+              </button>
+              <button class="juno-size-button close-button" onClick={() => this.handleClose()}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M6.41421 5H10V3H3V10H5V6.41421L9.29289 10.7071L10.7071 9.29289L6.41421 5ZM21 14H19V17.5858L14.7071 13.2929L13.2929 14.7071L17.5858 19H14V21H21V14Z"></path>
+                  <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
                 </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9.00008 4.00008H11.0001V11.0001H4.00008V9.00008H7.58586L3.29297 4.70718L4.70718 3.29297L9.00008 7.58586V4.00008ZM20 15H16.4142L20.7071 19.2929L19.2929 20.7071L15 16.4142V20H13V13H20V15Z"></path>
-                </svg>
-              )}
-            </button>
+              </button>
+            </div>
           </div>
           <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
             <small class="juno-disclaimer">I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.</small>
