@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type              | Default     |
-| --------- | --------- | ----------- | ----------------- | ----------- |
-| `message` | `message` |             | `string`          | `undefined` |
-| `type`    | `type`    |             | `"bot" \| "user"` | `'bot'`     |
+| Property  | Attribute | Description | Type              | Default |
+| --------- | --------- | ----------- | ----------------- | ------- |
+| `message` | `message` |             | `string`          | `''`    |
+| `type`    | `type`    |             | `"bot" \| "user"` | `'bot'` |
 
 
 ## Dependencies

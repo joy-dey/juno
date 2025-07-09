@@ -7,16 +7,19 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type                                            | Default     |
-| ---------- | ---------- | ----------- | ----------------------------------------------- | ----------- |
-| `messages` | `messages` |             | `{ type: "user" \| "bot"; message: string; }[]` | `undefined` |
+| Property            | Attribute             | Description | Type                                            | Default     |
+| ------------------- | --------------------- | ----------- | ----------------------------------------------- | ----------- |
+| `isBotTyping`       | `is-bot-typing`       |             | `boolean`                                       | `false`     |
+| `isSocketConnected` | `is-socket-connected` |             | `boolean`                                       | `false`     |
+| `messages`          | `messages`            |             | `{ type: "user" \| "bot"; message: string; }[]` | `undefined` |
 
 
 ## Events
 
-| Event         | Description | Type                  |
-| ------------- | ----------- | --------------------- |
-| `sentMessage` |             | `CustomEvent<string>` |
+| Event          | Description | Type                  |
+| -------------- | ----------- | --------------------- |
+| `requestClose` |             | `CustomEvent<void>`   |
+| `sentMessage`  |             | `CustomEvent<string>` |
 
 
 ## Dependencies
