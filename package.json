@@ -1,5 +1,10 @@
 {
-  "name": "juno",
+  "name": "@joydey/juno",
+  "author": {
+    "name": "Joy Dey",
+    "email": "joy.dey@outlook.com",
+    "url": "https://github.com/joy-dey"
+  },
   "version": "0.0.1",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
@@ -13,10 +18,6 @@
       "import": "./dist/juno/juno.esm.js",
       "require": "./dist/juno/juno.cjs.js"
     },
-    "./my-component": {
-      "import": "./dist/components/my-component.js",
-      "types": "./dist/components/my-component.d.ts"
-    },
     "./loader": {
       "import": "./loader/index.js",
       "require": "./loader/index.cjs",
@@ -25,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stenciljs/component-starter.git"
+    "url": "https://github.com/joy-dey/juno"
   },
   "files": [
     "dist/",
@@ -50,5 +51,8 @@
   "dependencies": {
     "dompurify": "^3.2.6",
     "marked": "^16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
