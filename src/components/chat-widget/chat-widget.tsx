@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Host, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
 
 @Component({
   tag: 'chat-widget',
@@ -10,6 +10,8 @@ export class ChatWidget {
   private reconnectAttempts: number = 0;
   private readonly maxReconnectAttempts = 50;
   private responseTimeout: any = null;
+
+  @Prop() socketURL: string = '';
 
   @State() messages: { type: 'user' | 'bot'; message: string }[] = [
     {
@@ -32,7 +34,7 @@ export class ChatWidget {
   }
 
   private connectWebSocket() {
-    this.socket = new WebSocket('');
+    this.socket = new WebSocket(this.socketURL);
 
     this.socket.onopen = event => {
       this.isSocketConnected = true;
