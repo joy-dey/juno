@@ -15,7 +15,7 @@ export namespace Components {
           * @default false
          */
         "isSocketConnected": boolean;
-        "messages": { type: 'user' | 'bot'; message: string }[];
+        "messages": { type: 'user' | 'bot'; message: string; timestamp: string }[];
     }
     interface ChatBubble {
         /**
@@ -109,7 +109,7 @@ declare namespace LocalJSX {
           * @default false
          */
         "isSocketConnected"?: boolean;
-        "messages"?: { type: 'user' | 'bot'; message: string }[];
+        "messages"?: { type: 'user' | 'bot'; message: string; timestamp: string }[];
         "onRequestClose"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
     }

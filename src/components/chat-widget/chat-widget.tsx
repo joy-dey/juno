@@ -13,10 +13,11 @@ export class ChatWidget {
 
   @Prop() socketURL: string = '';
 
-  @State() messages: { type: 'user' | 'bot'; message: string }[] = [
+  @State() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[] = [
     {
       type: 'bot',
       message: 'Hey! How can I help you today?',
+      timestamp: this.formatDateIntl(new Date()),
     },
   ];
   @State() isMinimized: boolean = true;
@@ -30,7 +31,9 @@ export class ChatWidget {
   }
 
   componentWillLoad() {
-    this.connectWebSocket();
+    if (this.socketURL) {
+      this.connectWebSocket();
+    }
   }
 
   private connectWebSocket() {
@@ -46,10 +49,9 @@ export class ChatWidget {
     };
 
     this.socket.onmessage = event => {
-      console.log('[WebSocket] Message received:', event.data);
       this.isBotTyping = false;
       clearTimeout(this.responseTimeout);
-      this.messages = [...this.messages, { type: 'bot', message: event.data }];
+      this.messages = [...this.messages, { type: 'bot', message: event.data, timestamp: this.formatDateIntl(new Date()) }];
     };
 
     this.socket.onclose = event => {
@@ -81,9 +83,23 @@ export class ChatWidget {
     if (this.socket?.readyState === WebSocket.OPEN) {
       this.socket.send(message);
       this.isBotTyping = true;
-      this.messages = [...this.messages, { type: 'user', message: message }];
+      this.messages = [...this.messages, { type: 'user', message: message, timestamp: this.formatDateIntl(new Date()) }];
       this.setResponseTimeout();
     }
+  }
+
+  formatDateIntl(date) {
+    const formatted = new Intl.DateTimeFormat('en-CA', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).format(date);
+
+    return `(${formatted.replace(',', '')})`;
   }
 
   private setResponseTimeout() {
@@ -96,6 +112,7 @@ export class ChatWidget {
         {
           type: 'bot',
           message: 'Something went wrong! Please retry',
+          timestamp: this.formatDateIntl(new Date()),
         },
       ];
     }, 120000);

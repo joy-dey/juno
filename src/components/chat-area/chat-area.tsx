@@ -6,7 +6,7 @@ import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@st
   shadow: true,
 })
 export class ChatArea {
-  @Prop() messages: { type: 'user' | 'bot'; message: string }[];
+  @Prop() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[];
   @Prop() isSocketConnected: boolean = false;
   @Prop() isBotTyping: boolean = false;
 
@@ -121,6 +121,20 @@ export class ChatArea {
     form.reset();
   };
 
+  private downloadMessagesAsText() {
+    const text = this.messages.map(msg => `${msg.timestamp}[${msg.type}] ${msg.message}`).join('\n');
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transcript-${new Date().getTime()}.txt`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
   render() {
     return (
       <Host ref={el => (this.hostElement = el)}>
@@ -148,9 +162,13 @@ export class ChatArea {
                   <div class="status"></div>
                 </div>
               </div>
-              <small>Your not-so-smart assistant</small>
             </div>
             <div class="juno-buttons-container">
+              <button class="juno-size-button" title="Download Transcript" onClick={() => this.downloadMessagesAsText()}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path>
+                </svg>
+              </button>
               <button class="juno-size-button maximize-button" onClick={() => (this.isMaximized = !this.isMaximized)}>
                 {!this.isMaximized ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

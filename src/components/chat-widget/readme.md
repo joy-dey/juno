@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property    | Attribute      | Description | Type     | Default |
+| ----------- | -------------- | ----------- | -------- | ------- |
+| `socketURL` | `socket-u-r-l` |             | `string` | `''`    |
+
+
 ## Events
 
 | Event                | Description | Type                   |
