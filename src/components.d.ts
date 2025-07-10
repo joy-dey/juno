@@ -28,20 +28,10 @@ export namespace Components {
         "type": 'bot' | 'user';
     }
     interface ChatWidget {
-    }
-    interface MyComponent {
         /**
-          * The first name
+          * @default ''
          */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+        "socketURL": string;
     }
     interface TypingIndicator {
     }
@@ -96,12 +86,6 @@ declare global {
         prototype: HTMLChatWidgetElement;
         new (): HTMLChatWidgetElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLTypingIndicatorElement extends Components.TypingIndicator, HTMLStencilElement {
     }
     var HTMLTypingIndicatorElement: {
@@ -112,7 +96,6 @@ declare global {
         "chat-area": HTMLChatAreaElement;
         "chat-bubble": HTMLChatBubbleElement;
         "chat-widget": HTMLChatWidgetElement;
-        "my-component": HTMLMyComponentElement;
         "typing-indicator": HTMLTypingIndicatorElement;
     }
 }
@@ -142,20 +125,10 @@ declare namespace LocalJSX {
     }
     interface ChatWidget {
         "onSocketChangeStatus"?: (event: ChatWidgetCustomEvent<boolean>) => void;
-    }
-    interface MyComponent {
         /**
-          * The first name
+          * @default ''
          */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+        "socketURL"?: string;
     }
     interface TypingIndicator {
     }
@@ -163,7 +136,6 @@ declare namespace LocalJSX {
         "chat-area": ChatArea;
         "chat-bubble": ChatBubble;
         "chat-widget": ChatWidget;
-        "my-component": MyComponent;
         "typing-indicator": TypingIndicator;
     }
 }
@@ -174,7 +146,6 @@ declare module "@stencil/core" {
             "chat-area": LocalJSX.ChatArea & JSXBase.HTMLAttributes<HTMLChatAreaElement>;
             "chat-bubble": LocalJSX.ChatBubble & JSXBase.HTMLAttributes<HTMLChatBubbleElement>;
             "chat-widget": LocalJSX.ChatWidget & JSXBase.HTMLAttributes<HTMLChatWidgetElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "typing-indicator": LocalJSX.TypingIndicator & JSXBase.HTMLAttributes<HTMLTypingIndicatorElement>;
         }
     }
