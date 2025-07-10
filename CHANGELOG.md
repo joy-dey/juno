@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2-alpha.0](https://github.com/joy-dey/juno/compare/v0.0.1...v0.0.2-alpha.0) (2025-07-10)
+
+
+### Features
+
+* **chat-enhancements:** add transcript download functionality and remove unnecessary codes ([6f72c3d](https://github.com/joy-dey/juno/commit/6f72c3dec6c9733dbe9536f8f9e43b72624c4cfd))
+
 ### 0.0.1 (2025-07-09)
 
 
