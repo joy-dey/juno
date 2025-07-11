@@ -8,6 +8,10 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface ChatArea {
         /**
+          * @default ''
+         */
+        "botName": string;
+        /**
           * @default false
          */
         "isBotTyping": boolean;
@@ -23,11 +27,19 @@ export namespace Components {
          */
         "message": string;
         /**
+          * @default ''
+         */
+        "timestamp": string;
+        /**
           * @default 'bot'
          */
         "type": 'bot' | 'user';
     }
     interface ChatWidget {
+        /**
+          * @default 'Juno'
+         */
+        "botName": string;
         /**
           * @default ''
          */
@@ -102,6 +114,10 @@ declare global {
 declare namespace LocalJSX {
     interface ChatArea {
         /**
+          * @default ''
+         */
+        "botName"?: string;
+        /**
           * @default false
          */
         "isBotTyping"?: boolean;
@@ -119,11 +135,19 @@ declare namespace LocalJSX {
          */
         "message"?: string;
         /**
+          * @default ''
+         */
+        "timestamp"?: string;
+        /**
           * @default 'bot'
          */
         "type"?: 'bot' | 'user';
     }
     interface ChatWidget {
+        /**
+          * @default 'Juno'
+         */
+        "botName"?: string;
         "onSocketChangeStatus"?: (event: ChatWidgetCustomEvent<boolean>) => void;
         /**
           * @default ''
