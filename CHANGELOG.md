@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2-alpha.1](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.0...v0.0.2-alpha.1) (2025-07-11)
+
+
+### Features
+
+* **chat-area:** add props for specifying bot name ([dbaada6](https://github.com/joy-dey/juno/commit/dbaada6c78b8d2dfc0a1add94ebdd3d72e6bce45))
+* **chat-bubble:** add timestamp to chat bubble action ([7105cae](https://github.com/joy-dey/juno/commit/7105cae1449bada27faf7416f24c6c2d7ee5e1b4))
+* **chat-widget:** add bot name props to chat widget ([e2e3117](https://github.com/joy-dey/juno/commit/e2e3117b97f12403c3c83e9861d7516548d77275))
+* **components:** add botName to ChatArea, ChatWidget interface and timestamp to ChatBubble interface ([0d0ea86](https://github.com/joy-dey/juno/commit/0d0ea8600df1259c64c31608ab7597d26f7e51a1))
+
 ### [0.0.2-alpha.0](https://github.com/joy-dey/juno/compare/v0.0.1...v0.0.2-alpha.0) (2025-07-10)
 
 
