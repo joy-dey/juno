@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property    | Attribute      | Description | Type     | Default |
-| ----------- | -------------- | ----------- | -------- | ------- |
-| `socketURL` | `socket-u-r-l` |             | `string` | `''`    |
+| Property    | Attribute      | Description | Type     | Default  |
+| ----------- | -------------- | ----------- | -------- | -------- |
+| `botName`   | `bot-name`     |             | `string` | `'Juno'` |
+| `socketURL` | `socket-u-r-l` |             | `string` | `''`     |
 
 
 ## Events

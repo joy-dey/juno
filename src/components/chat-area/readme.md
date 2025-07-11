@@ -9,6 +9,7 @@
 
 | Property            | Attribute             | Description | Type                                                               | Default     |
 | ------------------- | --------------------- | ----------- | ------------------------------------------------------------------ | ----------- |
+| `botName`           | `bot-name`            |             | `string`                                                           | `''`        |
 | `isBotTyping`       | `is-bot-typing`       |             | `boolean`                                                          | `false`     |
 | `isSocketConnected` | `is-socket-connected` |             | `boolean`                                                          | `false`     |
 | `messages`          | `messages`            |             | `{ type: "user" \| "bot"; message: string; timestamp: string; }[]` | `undefined` |
