@@ -6,6 +6,7 @@ import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@st
   shadow: true,
 })
 export class ChatArea {
+  @Prop() botName: string = '';
   @Prop() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[];
   @Prop() isSocketConnected: boolean = false;
   @Prop() isBotTyping: boolean = false;
@@ -157,7 +158,7 @@ export class ChatArea {
             </div>
             <div class="brand-info">
               <div class="flex-group">
-                <p>Juno</p>
+                <p>{this.botName}</p>
                 <div class={`juno-status-indicator ${this.isSocketConnected ? 'online' : 'offline'}`}>
                   <div class="status"></div>
                 </div>
@@ -189,8 +190,8 @@ export class ChatArea {
           </div>
           <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
             <small class="juno-disclaimer">I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.</small>
-            {this.messages.map(({ type, message }) => (
-              <chat-bubble type={type} message={message}></chat-bubble>
+            {this.messages.map(({ type, message, timestamp }) => (
+              <chat-bubble type={type} message={message} timestamp={timestamp}></chat-bubble>
             ))}
             <slot></slot>
           </div>
