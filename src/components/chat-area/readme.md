@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property            | Attribute             | Description | Type                                            | Default     |
-| ------------------- | --------------------- | ----------- | ----------------------------------------------- | ----------- |
-| `isBotTyping`       | `is-bot-typing`       |             | `boolean`                                       | `false`     |
-| `isSocketConnected` | `is-socket-connected` |             | `boolean`                                       | `false`     |
-| `messages`          | `messages`            |             | `{ type: "user" \| "bot"; message: string; }[]` | `undefined` |
+| Property            | Attribute             | Description | Type                                                               | Default     |
+| ------------------- | --------------------- | ----------- | ------------------------------------------------------------------ | ----------- |
+| `isBotTyping`       | `is-bot-typing`       |             | `boolean`                                                          | `false`     |
+| `isSocketConnected` | `is-socket-connected` |             | `boolean`                                                          | `false`     |
+| `messages`          | `messages`            |             | `{ type: "user" \| "bot"; message: string; timestamp: string; }[]` | `undefined` |
 
 
 ## Events
