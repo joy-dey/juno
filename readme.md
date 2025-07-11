@@ -29,7 +29,7 @@ npm install @joydey/juno
 No extra setup required:
 
 ```html
-<juno-chat socket-url="wss://your-chat-backend.example.com/socket" />
+<chat-widget socket-url="wss://your-chat-backend.example.com/socket" />
 ```
 
 If bundling manually, also include:
@@ -63,7 +63,7 @@ function App() {
     }
   }, []);
 
-  return <juno-chat ref={chatRef}></juno-chat>;
+  return <chat-widget ref={chatRef}></chat-widget>;
 }
 ```
 
@@ -101,7 +101,7 @@ export class AppModule {}
 4. In your component:
 
 ```html
-<juno-chat #chat></juno-chat>
+<chat-widget #chat></chat-widget>
 ```
 
 5. In your component class:
