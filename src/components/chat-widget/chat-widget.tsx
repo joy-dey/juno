@@ -12,6 +12,7 @@ export class ChatWidget {
   private responseTimeout: any = null;
 
   @Prop() socketURL: string = '';
+  @Prop() botName: string = 'Juno';
 
   @State() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[] = [
     {
@@ -123,6 +124,7 @@ export class ChatWidget {
       <Host>
         {!this.isMinimized && (
           <chat-area
+            botName="Akash"
             messages={this.messages}
             onSentMessage={event => this.sendMessage(event.detail)}
             isSocketConnected={this.isSocketConnected}
