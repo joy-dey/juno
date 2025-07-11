@@ -63,6 +63,10 @@
       }
     }
   }
+  .chat-timestamp {
+    font-size: 0.7rem;
+    color: oklch(0.704 0.04 256.788);
+  }
 }
 
 /* markdown styles */
