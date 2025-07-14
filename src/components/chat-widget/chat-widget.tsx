@@ -122,6 +122,7 @@ export class ChatWidget {
     this.socket.onmessage = event => {
       this.isBotTyping = false;
       clearTimeout(this.responseTimeout);
+      this.notify(event.data);
       this.messages = [...this.messages, { type: 'bot', message: event.data, timestamp: this.formatDateIntl(new Date()) }];
     };
 
@@ -193,6 +194,24 @@ export class ChatWidget {
         },
       ];
     }, 180000);
+  }
+
+  notify(message: string) {
+    if (!('Notification' in window)) {
+      console.warn('Notification not supported by browser');
+    } else if (Notification.permission === 'granted') {
+      new Notification('New Message', {
+        body: message,
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('New Message', {
+            body: message,
+          });
+        }
+      });
+    }
   }
 
   render() {
