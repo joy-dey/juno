@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2-alpha.2](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.1...v0.0.2-alpha.2) (2025-07-14)
+
+
+### Features
+
+* **chat-area:** add prop for providing disclaimer text content ([c7b911e](https://github.com/joy-dey/juno/commit/c7b911e03eb7fb14eff00d33c1c1ac617bed92c2))
+* **chat-area:** add prop for socketConnectionStatus in chat-area ([1e6a034](https://github.com/joy-dey/juno/commit/1e6a03416caf9f2214e32e9f5932941734001280))
+* **chat-area:** add status indicator for typing and connection status ([bb8537f](https://github.com/joy-dey/juno/commit/bb8537ff3851792eb5ebbff2c88ca1799c66033e))
+* **chat-area:** enhance chat-area with new functions ([c48776d](https://github.com/joy-dey/juno/commit/c48776d779c8d5e97666b8d70f95cfc1762d934a))
+* **chat-widget:** add notification support to chat widget on incoming message ([3d919bc](https://github.com/joy-dey/juno/commit/3d919bc4e4bee4f23a23b58bcd8b94b7163d13d5))
+* **chat-widget:** add socketConnectionState to chat-widget ([01a762e](https://github.com/joy-dey/juno/commit/01a762e0e2fea1b2da4b8b9737b2f0ac5adb5c60))
+* **chat-widget:** enhance chat-widget with new functions ([a6d02ca](https://github.com/joy-dey/juno/commit/a6d02cab3b5f70a3e157c63afc591779e84240d9))
+* **components:** add buttonBackground to ChatWidget interface ([1a354aa](https://github.com/joy-dey/juno/commit/1a354aa4ed947be55cc520ebe8d3aaa533f790a0))
+* **components:** add disclaimerText to ChatArea interface ([78fe507](https://github.com/joy-dey/juno/commit/78fe5070a089e015f3f70bfd0123256a5a49cbe6))
+* **components:** add socketConnectionStatus to ChatArea interface ([4865c6d](https://github.com/joy-dey/juno/commit/4865c6d64f5056bda57ede9330523adb11e31481))
+
 ### [0.0.2-alpha.1](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.0...v0.0.2-alpha.1) (2025-07-11)
 
 
