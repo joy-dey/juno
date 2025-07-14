@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property    | Attribute      | Description | Type     | Default  |
-| ----------- | -------------- | ----------- | -------- | -------- |
-| `botName`   | `bot-name`     |             | `string` | `'Juno'` |
-| `socketURL` | `socket-u-r-l` |             | `string` | `''`     |
+| Property           | Attribute           | Description | Type     | Default     |
+| ------------------ | ------------------- | ----------- | -------- | ----------- |
+| `botName`          | `bot-name`          |             | `string` | `'Juno'`    |
+| `buttonBackground` | `button-background` |             | `string` | `'#c9ff07'` |
+| `socketURL`        | `socket-u-r-l`      |             | `string` | `''`        |
 
 
 ## Events
