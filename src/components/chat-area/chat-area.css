@@ -58,6 +58,8 @@
 
     .juno-status-indicator {
       cursor: pointer;
+      position: relative;
+
       .status {
         width: 0.5rem;
         height: 0.5rem;
@@ -81,6 +83,26 @@
 
         .status {
           background-color: oklch(0.704 0.04 256.788);
+        }
+      }
+      &:is(.reconnecting) {
+        background-color: oklch(0.973 0.071 103.193);
+        .status {
+          background-color: oklch(0.795 0.184 86.047);
+
+          &::before {
+            position: absolute;
+            width: 0.625rem;
+            height: 0.625rem;
+            border-radius: 100%;
+            background-color: oklch(0.795 0.184 86.047);
+            opacity: 0.75;
+            content: '';
+            animation: ping 1s ease infinite;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+          }
         }
       }
     }
@@ -127,9 +149,9 @@
 
     .juno-disclaimer {
       text-align: center;
-      max-width: 85%;
+      max-width: 20rem;
       margin: 0 auto;
-      opacity: 0.5;
+      opacity: 0.35;
       font-size: 0.75rem;
       display: block;
       margin-block: 0.5rem 2rem;
@@ -247,5 +269,13 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
   }
 }
