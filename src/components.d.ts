@@ -20,6 +20,10 @@ export namespace Components {
          */
         "isSocketConnected": boolean;
         "messages": { type: 'user' | 'bot'; message: string; timestamp: string }[];
+        /**
+          * @default 'offline'
+         */
+        "socketConnectionStatus": 'online' | 'offline' | 'reconnecting';
     }
     interface ChatBubble {
         /**
@@ -128,6 +132,10 @@ declare namespace LocalJSX {
         "messages"?: { type: 'user' | 'bot'; message: string; timestamp: string }[];
         "onRequestClose"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
+        /**
+          * @default 'offline'
+         */
+        "socketConnectionStatus"?: 'online' | 'offline' | 'reconnecting';
     }
     interface ChatBubble {
         /**
