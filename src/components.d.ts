@@ -12,6 +12,10 @@ export namespace Components {
          */
         "botName": string;
         /**
+          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
+         */
+        "disclaimerText": string;
+        /**
           * @default false
          */
         "isBotTyping": boolean;
@@ -126,6 +130,10 @@ declare namespace LocalJSX {
           * @default ''
          */
         "botName"?: string;
+        /**
+          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
+         */
+        "disclaimerText"?: string;
         /**
           * @default false
          */
