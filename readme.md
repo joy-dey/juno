@@ -135,7 +135,7 @@ export class AppComponent implements AfterViewInit {
 To develop or customize the component locally:
 
 ```bash
-git clone https://github.com/joydey/juno.git
+git clone https://github.com/joy-dey/juno.git
 cd juno
 npm install
 npm start
@@ -147,7 +147,7 @@ This starts the Stencil development server with hot-reload.
 
 ## 📄 License
 
-MIT © [joydey](https://github.com/joydey)
+MIT © [joydey](https://github.com/joy-dey)
 
 ---
 
@@ -155,7 +155,7 @@ MIT © [joydey](https://github.com/joydey)
 
 Contributions, issues and feature requests are welcome!
 
-- Open issues on [GitHub](https://github.com/joydey/juno/issues)
+- Open issues on [GitHub](https://github.com/joy-dey/juno/issues)
 - Submit pull requests
 - Or start a discussion if you have ideas!
 
