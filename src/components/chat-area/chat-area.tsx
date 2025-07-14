@@ -19,10 +19,12 @@ export class ChatArea {
 
   @Event() sentMessage: EventEmitter<string>;
   @Event() requestClose: EventEmitter<void>;
+  @Event() requestSocketReconnection: EventEmitter<void>;
 
   private recognition: any;
   private chatContainerEl?: HTMLDivElement;
   private hostElement: HTMLElement;
+  private messageBoxElement: HTMLInputElement;
 
   @Watch('isBotTyping')
   handleBotTyping(newVal: boolean) {
@@ -83,6 +85,10 @@ export class ChatArea {
     if (this.chatContainerEl) {
       this.chatContainerEl.scrollTop = this.chatContainerEl.scrollHeight;
     }
+
+    if (this.messageBoxElement) {
+      this.messageBoxElement.focus();
+    }
   }
 
   disconnectedCallback() {
@@ -110,6 +116,10 @@ export class ChatArea {
 
   private handleClose = () => {
     this.requestClose.emit();
+  };
+
+  private requestReconnection = () => {
+    this.requestSocketReconnection.emit();
   };
 
   private handleFormSubmit = (e: Event) => {
@@ -172,7 +182,7 @@ export class ChatArea {
               <small>{this.isBotTyping ? 'typing...' : this.socketConnectionStatus}</small>
             </div>
             <div class="juno-buttons-container">
-              {this.messages.length > 1 && (
+              {this.messages.length > 2 && (
                 <button class="juno-size-button" title="Download Transcript" onClick={() => this.downloadMessagesAsText()}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path>
@@ -191,6 +201,14 @@ export class ChatArea {
                   </svg>
                 )}
               </button>
+              {this.socketConnectionStatus === 'offline' && (
+                <button class="juno-size-button" onClick={() => this.requestReconnection()}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4C14.7486 4 17.1749 5.38626 18.6156 7.5H16V9.5H22V3.5H20V5.99936C18.1762 3.57166 15.2724 2 12 2C6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20C9.25144 20 6.82508 18.6137 5.38443 16.5H8V14.5H2V20.5H4V18.0006C5.82381 20.4283 8.72764 22 12 22C17.5228 22 22 17.5228 22 12H20Z"></path>
+                  </svg>
+                </button>
+              )}
+
               <button class="juno-size-button close-button" onClick={() => this.handleClose()}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
@@ -207,7 +225,16 @@ export class ChatArea {
           </div>
           <div class="juno-chat-footer">
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
-              <input type="text" name="message" id="message" value={this.transcript} placeholder="Ask anything" onInput={event => this.handleUserInput(event)} />
+              <input
+                ref={el => (this.messageBoxElement = el)}
+                type="text"
+                name="message"
+                required
+                id="message"
+                value={this.transcript}
+                placeholder="Ask anything"
+                onInput={event => this.handleUserInput(event)}
+              />
 
               {this.transcript.trim() === '' ? (
                 !this.isRecognizing ? (
