@@ -11,6 +11,7 @@ export class ChatArea {
   @Prop() isSocketConnected: boolean = false;
   @Prop() isBotTyping: boolean = false;
   @Prop() socketConnectionStatus: 'online' | 'offline' | 'reconnecting' = 'offline';
+  @Prop() disclaimerText: string = "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.";
 
   @State() isLoading: boolean = false;
   @State() isMaximized: boolean = false;
@@ -217,7 +218,7 @@ export class ChatArea {
             </div>
           </div>
           <div class="juno-chat-container" ref={el => (this.chatContainerEl = el)}>
-            <small class="juno-disclaimer">I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.</small>
+            <small class="juno-disclaimer">{this.disclaimerText}</small>
             {this.messages.map(({ type, message, timestamp }) => (
               <chat-bubble type={type} message={message} timestamp={timestamp}></chat-bubble>
             ))}
