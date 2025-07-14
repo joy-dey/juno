@@ -24,6 +24,7 @@ export class ChatWidget {
   @State() isMinimized: boolean = true;
   @State() isBotTyping: boolean = false;
   @State() isSocketConnected: boolean = false;
+  @State() socketConnectionStatus: 'online' | 'offline' | 'reconnecting' = 'offline';
 
   @Event() socketChangeStatus: EventEmitter<boolean>;
 
@@ -42,6 +43,7 @@ export class ChatWidget {
 
     this.socket.onopen = event => {
       this.isSocketConnected = true;
+      this.socketConnectionStatus = 'online';
       console.log(
         `%c[WebSocket]%c Connected: ${event.type}`,
         'color: #000; font-weight: medium; font-size: 10px; background: #c9ff07; padding: .25rem .5rem; border-radius: .35rem',
@@ -61,15 +63,20 @@ export class ChatWidget {
 
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
+        this.socketConnectionStatus = 'reconnecting';
         const retryIn = 1000 * this.reconnectAttempts;
+
         setTimeout(() => this.connectWebSocket(), retryIn);
       } else {
         console.error('Max reconnect attempts reached.');
+        this.socketConnectionStatus = 'offline';
+        this.messages = [...this.messages, { type: 'bot', message: 'Uh ho! Seems like I am having trouble connecting to my server', timestamp: this.formatDateIntl(new Date()) }];
       }
     };
 
     this.socket.onerror = event => {
       this.isSocketConnected = false;
+      this.socketConnectionStatus = 'offline';
 
       console.log('[WebSocket] Error:', event);
     };
@@ -129,6 +136,7 @@ export class ChatWidget {
             onSentMessage={event => this.sendMessage(event.detail)}
             isSocketConnected={this.isSocketConnected}
             isBotTyping={this.isBotTyping}
+            socketConnectionStatus={this.socketConnectionStatus}
             onRequestClose={() => (this.isMinimized = true)}
           >
             {this.isBotTyping && <typing-indicator></typing-indicator>}
