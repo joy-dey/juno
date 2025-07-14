@@ -45,6 +45,10 @@ export namespace Components {
          */
         "botName": string;
         /**
+          * @default '#c9ff07'
+         */
+        "buttonBackground": string;
+        /**
           * @default ''
          */
         "socketURL": string;
@@ -64,6 +68,7 @@ declare global {
     interface HTMLChatAreaElementEventMap {
         "sentMessage": string;
         "requestClose": void;
+        "requestSocketReconnection": void;
     }
     interface HTMLChatAreaElement extends Components.ChatArea, HTMLStencilElement {
         addEventListener<K extends keyof HTMLChatAreaElementEventMap>(type: K, listener: (this: HTMLChatAreaElement, ev: ChatAreaCustomEvent<HTMLChatAreaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -131,6 +136,7 @@ declare namespace LocalJSX {
         "isSocketConnected"?: boolean;
         "messages"?: { type: 'user' | 'bot'; message: string; timestamp: string }[];
         "onRequestClose"?: (event: ChatAreaCustomEvent<void>) => void;
+        "onRequestSocketReconnection"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
         /**
           * @default 'offline'
@@ -156,6 +162,10 @@ declare namespace LocalJSX {
           * @default 'Juno'
          */
         "botName"?: string;
+        /**
+          * @default '#c9ff07'
+         */
+        "buttonBackground"?: string;
         "onSocketChangeStatus"?: (event: ChatWidgetCustomEvent<boolean>) => void;
         /**
           * @default ''
