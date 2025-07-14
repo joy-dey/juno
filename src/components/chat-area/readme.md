@@ -7,20 +7,23 @@
 
 ## Properties
 
-| Property            | Attribute             | Description | Type                                                               | Default     |
-| ------------------- | --------------------- | ----------- | ------------------------------------------------------------------ | ----------- |
-| `botName`           | `bot-name`            |             | `string`                                                           | `''`        |
-| `isBotTyping`       | `is-bot-typing`       |             | `boolean`                                                          | `false`     |
-| `isSocketConnected` | `is-socket-connected` |             | `boolean`                                                          | `false`     |
-| `messages`          | `messages`            |             | `{ type: "user" \| "bot"; message: string; timestamp: string; }[]` | `undefined` |
+| Property                 | Attribute                  | Description | Type                                                               | Default                                                                                                         |
+| ------------------------ | -------------------------- | ----------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `botName`                | `bot-name`                 |             | `string`                                                           | `''`                                                                                                            |
+| `disclaimerText`         | `disclaimer-text`          |             | `string`                                                           | `"I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."` |
+| `isBotTyping`            | `is-bot-typing`            |             | `boolean`                                                          | `false`                                                                                                         |
+| `isSocketConnected`      | `is-socket-connected`      |             | `boolean`                                                          | `false`                                                                                                         |
+| `messages`               | `messages`                 |             | `{ type: "user" \| "bot"; message: string; timestamp: string; }[]` | `undefined`                                                                                                     |
+| `socketConnectionStatus` | `socket-connection-status` |             | `"offline" \| "online" \| "reconnecting"`                          | `'offline'`                                                                                                     |
 
 
 ## Events
 
-| Event          | Description | Type                  |
-| -------------- | ----------- | --------------------- |
-| `requestClose` |             | `CustomEvent<void>`   |
-| `sentMessage`  |             | `CustomEvent<string>` |
+| Event                       | Description | Type                  |
+| --------------------------- | ----------- | --------------------- |
+| `requestClose`              |             | `CustomEvent<void>`   |
+| `requestSocketReconnection` |             | `CustomEvent<void>`   |
+| `sentMessage`               |             | `CustomEvent<string>` |
 
 
 ## Dependencies
