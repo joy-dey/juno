@@ -15,19 +15,6 @@ export namespace Components {
           * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
          */
         "disclaimerText": string;
-        /**
-          * @default false
-         */
-        "isBotTyping": boolean;
-        /**
-          * @default false
-         */
-        "isSocketConnected": boolean;
-        "messages": { type: 'user' | 'bot'; message: string; timestamp: string }[];
-        /**
-          * @default 'offline'
-         */
-        "socketConnectionStatus": 'online' | 'offline' | 'reconnecting';
     }
     interface ChatBubble {
         /**
@@ -49,7 +36,7 @@ export namespace Components {
          */
         "botName": string;
         /**
-          * @default '#c9ff07'
+          * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground": string;
         /**
@@ -64,14 +51,9 @@ export interface ChatAreaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLChatAreaElement;
 }
-export interface ChatWidgetCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLChatWidgetElement;
-}
 declare global {
     interface HTMLChatAreaElementEventMap {
         "sentMessage": string;
-        "requestClose": void;
         "requestSocketReconnection": void;
     }
     interface HTMLChatAreaElement extends Components.ChatArea, HTMLStencilElement {
@@ -94,18 +76,7 @@ declare global {
         prototype: HTMLChatBubbleElement;
         new (): HTMLChatBubbleElement;
     };
-    interface HTMLChatWidgetElementEventMap {
-        "socketChangeStatus": boolean;
-    }
     interface HTMLChatWidgetElement extends Components.ChatWidget, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLChatWidgetElementEventMap>(type: K, listener: (this: HTMLChatWidgetElement, ev: ChatWidgetCustomEvent<HTMLChatWidgetElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLChatWidgetElementEventMap>(type: K, listener: (this: HTMLChatWidgetElement, ev: ChatWidgetCustomEvent<HTMLChatWidgetElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLChatWidgetElement: {
         prototype: HTMLChatWidgetElement;
@@ -134,22 +105,8 @@ declare namespace LocalJSX {
           * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
          */
         "disclaimerText"?: string;
-        /**
-          * @default false
-         */
-        "isBotTyping"?: boolean;
-        /**
-          * @default false
-         */
-        "isSocketConnected"?: boolean;
-        "messages"?: { type: 'user' | 'bot'; message: string; timestamp: string }[];
-        "onRequestClose"?: (event: ChatAreaCustomEvent<void>) => void;
         "onRequestSocketReconnection"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
-        /**
-          * @default 'offline'
-         */
-        "socketConnectionStatus"?: 'online' | 'offline' | 'reconnecting';
     }
     interface ChatBubble {
         /**
@@ -171,10 +128,9 @@ declare namespace LocalJSX {
          */
         "botName"?: string;
         /**
-          * @default '#c9ff07'
+          * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground"?: string;
-        "onSocketChangeStatus"?: (event: ChatWidgetCustomEvent<boolean>) => void;
         /**
           * @default ''
          */
