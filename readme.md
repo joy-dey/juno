@@ -124,9 +124,11 @@ export class AppComponent implements AfterViewInit {
 
 ### Properties
 
-| Property    | Type     | Required | Description                                   |
-| ----------- | -------- | -------- | --------------------------------------------- |
-| `socketUrl` | `string` | ✅       | WebSocket URL to connect to your chat backend |
+| Property           | Type     | Required | Description                                                        |
+| ------------------ | -------- | -------- | ------------------------------------------------------------------ |
+| `socketUrl`        | `string` | ✅       | WebSocket URL to connect to your chat backend                      |
+| `botName`          | `string` | ✅       | Name of the bot displayed on top of chat window. (default is juno) |
+| `buttonBackground` | `string` | ✅       | Color of the chat button                                           |
 
 ---
 
