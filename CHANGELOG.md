@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/joy-dey/juno/compare/v0.0.2...v0.0.3) (2025-07-15)
+
+
+### Bug Fixes
+
+* **chat-widget:** fix socket connection issue when socketURL is not passed. ([04e8499](https://github.com/joy-dey/juno/commit/04e8499b63e1958c3daf1c033809767c82da3ddd))
+
 ### [0.0.2](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.2...v0.0.2) (2025-07-15)
 
 
