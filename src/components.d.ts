@@ -10,7 +10,7 @@ export namespace Components {
         /**
           * @default ''
          */
-        "botName": string;
+        "agent": string;
         /**
           * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
          */
@@ -34,7 +34,7 @@ export namespace Components {
         /**
           * @default 'Juno'
          */
-        "botName": string;
+        "agent": string;
         /**
           * @default 'oklch(0.491 0.27 292.581)'
          */
@@ -100,7 +100,7 @@ declare namespace LocalJSX {
         /**
           * @default ''
          */
-        "botName"?: string;
+        "agent"?: string;
         /**
           * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
          */
@@ -126,7 +126,7 @@ declare namespace LocalJSX {
         /**
           * @default 'Juno'
          */
-        "botName"?: string;
+        "agent"?: string;
         /**
           * @default 'oklch(0.491 0.27 292.581)'
          */
