@@ -1,4 +1,5 @@
-import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
+import { Component, Host, Prop, State, h } from '@stencil/core';
+import { chatActions, ChatMessage, ChatState, chatState, onChatStateChange } from '../../store/chat-store';
 
 @Component({
   tag: 'chat-widget',
@@ -12,77 +13,14 @@ export class ChatWidget {
   private responseTimeout: any = null;
 
   @Prop() socketURL: string = '';
-  @Prop() botName: string = 'Juno';
-  @Prop() buttonBackground: string = '#c9ff07';
+  @Prop() agent: string = 'Juno';
+  @Prop() buttonBackground: string = 'oklch(0.491 0.27 292.581)';
 
-  @State() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[] = [];
-  @State() isMinimized: boolean = true;
-  @State() isBotTyping: boolean = false;
-  @State() isSocketConnected: boolean = false;
-  @State() socketConnectionStatus: 'online' | 'offline' | 'reconnecting' = 'offline';
-
-  @Event() socketChangeStatus: EventEmitter<boolean>;
-
-  chatbotGreetingMessages = [
-    'Hi there! How can I help you today?',
-    'Hello! What can I do for you?',
-    'Hey! Need any assistance?',
-    "Hi! I'm here if you need anything.",
-    'Hello! How can I assist you today?',
-    'Welcome! What would you like help with?',
-    'Hey there! What brings you here today?',
-    "Hi! Got a question? I've got answers.",
-    'Hello! Let me know how I can support you.',
-    'Hi! How can I make your day easier?',
-    'Hey! What can I help you find?',
-    "Hello! I'm ready when you are.",
-    'Hi! Looking for something specific?',
-    'Hey there! Need help with something?',
-    "Hi! I'm here to assist — ask away!",
-    'Welcome! How can I help you get started?',
-    "Hey! Let me know what you're looking for.",
-    'Hi there! Anything I can help you with?',
-    "Hello! How's your day going? Need a hand?",
-    "Hi! I'm ready to help whenever you are.",
-    'Hey! Want to explore something together?',
-    "Hi! I'm your assistant — how can I help?",
-    'Hello there! Need support with anything?',
-    "Hey! Tell me what you're looking for.",
-    "Hi! Let's get started — how can I help?",
-  ];
-
-  chatbotConnectionErrors = [
-    "Oops! I'm having trouble connecting right now. Could you try again shortly?",
-    "Hmm... I couldn't reach the server. Want to try that again?",
-    "Looks like something went wrong on my end. Let's give it another shot.",
-    "Sorry! I'm a bit disconnected at the moment. Please try again in a bit.",
-    'I tried reaching out, but got no response. Maybe try once more?',
-    "Uh-oh, the server didn't answer. Let's try again in a moment.",
-    'I hit a little snag while fetching your response. Please try again.',
-    "It seems the connection isn't working right now. Can you try again soon?",
-    "I'm having a temporary hiccup. Could you give it another go?",
-    'Something went wrong while I was trying to talk to the server.',
-    'Whoops! No response from the server. Want to try again?',
-    "I'm stuck waiting on a reply. Let's try that again in a second.",
-    'Sorry, I lost the connection. Could you retry that for me?',
-    "I couldn't get through. Let's wait a moment and try again.",
-    'Hmm, the response is taking longer than usual. Want to try again?',
-    "Looks like I'm offline at the moment. Check your connection and try again.",
-    "I'm not getting any response from the server. Let's retry shortly.",
-    'I hit a timeout while waiting for a reply. Want to give it another go?',
-    'I ran into a temporary issue reaching the server. Can you try again?',
-    "It seems I'm unable to connect right now. Try refreshing or coming back later.",
-    'Yikes! Something went sideways. A quick retry might fix it.',
-    "My wires are crossed... couldn't connect. Try again?",
-    'I knocked, but no one answered. Want to retry?',
-    "I'm still waiting on a response. Let's try again soon.",
-    "Unfortunately, I couldn't connect this time. Try again?",
-    'Sorry about that! Something broke along the way. Please try again.',
-    "Server's being a little shy. Let's try again in a sec.",
-    'No luck connecting just now. Can we try once more?',
-    'Apologies — I hit a bump reaching the server. Want to retry?',
-    'Connection dropped! Mind giving that another shot?',
-  ];
+  @State() messages: ChatMessage[] = chatState.messages;
+  @State() isOpen: boolean = chatState.isOpen;
+  @State() isBotTyping: boolean = chatState.isBotTyping;
+  @State() isSocketConnected: boolean = chatState.isSocketConnected;
+  @State() socketConnectionStatus: ChatState['socketConnectionStatus'] = chatState.socketConnectionStatus;
 
   connectedCallback() {
     console.log('%cInitialized%c Juno initialized', 'color: white; font-size: 10px; background: #762fff; padding: .25rem .5rem; border-radius: .35rem', '');
@@ -93,16 +31,9 @@ export class ChatWidget {
       this.connectWebSocket();
     }
 
-    const randomMessage = this.chatbotGreetingMessages[Math.floor(Math.random() * this.chatbotGreetingMessages.length)];
-
-    this.messages = [
-      ...this.messages,
-      {
-        type: 'bot',
-        message: randomMessage,
-        timestamp: this.formatDateIntl(new Date()),
-      },
-    ];
+    onChatStateChange('isOpen', value => {
+      this.isOpen = value;
+    });
   }
 
   private connectWebSocket() {
@@ -110,8 +41,8 @@ export class ChatWidget {
 
     this.socket.onopen = event => {
       this.isSocketConnected = true;
-      this.socketConnectionStatus = 'online';
-      this.isBotTyping = false;
+      chatActions.setSocketConnection('connected');
+      chatActions.setBotTyping(false);
       console.log(
         `%c[WebSocket]%c Connected: ${event.type}`,
         'color: #000; font-weight: medium; font-size: 10px; background: #c9ff07; padding: .25rem .5rem; border-radius: .35rem',
@@ -120,10 +51,11 @@ export class ChatWidget {
     };
 
     this.socket.onmessage = event => {
-      this.isBotTyping = false;
+      chatActions.setBotTyping(false);
       clearTimeout(this.responseTimeout);
       this.notify(event.data);
-      this.messages = [...this.messages, { type: 'bot', message: event.data, timestamp: this.formatDateIntl(new Date()) }];
+      const incomingMessage: ChatMessage = { type: 'bot', message: event.data, timestamp: this.formatDateIntl(new Date()) };
+      chatActions.addMessage(incomingMessage);
     };
 
     this.socket.onclose = event => {
@@ -132,36 +64,34 @@ export class ChatWidget {
 
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
-        this.socketConnectionStatus = 'reconnecting';
+        chatActions.setSocketConnection('connecting');
         const retryIn = 1000 * this.reconnectAttempts;
 
         setTimeout(() => this.connectWebSocket(), retryIn);
       } else {
         console.error('Max reconnect attempts reached.');
-        this.socketConnectionStatus = 'offline';
-        const randomMessage = this.chatbotConnectionErrors[Math.floor(Math.random() * this.chatbotConnectionErrors.length)];
-        this.messages = [...this.messages, { type: 'bot', message: randomMessage, timestamp: this.formatDateIntl(new Date()) }];
+        chatActions.setSocketConnection('disconnected');
       }
     };
 
     this.socket.onerror = event => {
       this.isSocketConnected = false;
-      this.socketConnectionStatus = 'offline';
-
+      chatActions.setSocketConnection('disconnected');
       console.log('[WebSocket] Error:', event);
     };
   }
 
   handleClick() {
-    this.isMinimized = !this.isMinimized;
+    chatActions.toggleChat();
     console.log('%cClicked%c Juno triggered', 'color: white; font-size: 10px; background: #212529; padding: .25rem .5rem; border-radius: .35rem', '');
   }
 
   sendMessage(message: string) {
     if (this.socket?.readyState === WebSocket.OPEN) {
       this.socket.send(message);
-      this.isBotTyping = true;
-      this.messages = [...this.messages, { type: 'user', message: message, timestamp: this.formatDateIntl(new Date()) }];
+      chatActions.setBotTyping(true);
+      const processedMessage: ChatMessage = { type: 'user', message: message, timestamp: this.formatDateIntl(new Date()) };
+      chatActions.addMessage(processedMessage);
       this.setResponseTimeout();
     }
   }
@@ -185,14 +115,11 @@ export class ChatWidget {
 
     this.responseTimeout = setTimeout(() => {
       this.isBotTyping = false;
-      this.messages = [
-        ...this.messages,
-        {
-          type: 'bot',
-          message: 'Something went wrong! Please retry',
-          timestamp: this.formatDateIntl(new Date()),
-        },
-      ];
+      chatActions.addMessage({
+        type: 'bot',
+        message: 'Something went wrong! Please retry',
+        timestamp: this.formatDateIntl(new Date()),
+      });
     }, 180000);
   }
 
@@ -213,26 +140,18 @@ export class ChatWidget {
       });
     }
   }
-
   render() {
     return (
       <Host>
-        {!this.isMinimized && (
+        {this.isOpen && (
           <chat-area
-            botName={this.botName}
-            messages={this.messages}
+            agent={this.agent}
             onSentMessage={event => this.sendMessage(event.detail)}
-            isSocketConnected={this.isSocketConnected}
-            isBotTyping={this.isBotTyping}
-            socketConnectionStatus={this.socketConnectionStatus}
-            onRequestClose={() => (this.isMinimized = true)}
             onRequestSocketReconnection={() => {
               this.reconnectAttempts = 0;
               this.connectWebSocket();
             }}
-          >
-            {this.isBotTyping && <typing-indicator></typing-indicator>}
-          </chat-area>
+          ></chat-area>
         )}
         <button class="juno-fab" style={{ background: this.buttonBackground }} onClick={() => this.handleClick()}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
