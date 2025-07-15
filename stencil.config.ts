@@ -2,6 +2,9 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'juno',
+  minifyCss: true,
+  minifyJs: true,
+  buildEs5: false,
   devServer: {
     reloadStrategy: 'pageReload',
   },
@@ -17,10 +20,6 @@ export const config: Config = {
     },
     {
       type: 'docs-readme',
-    },
-    {
-      type: 'www',
-      serviceWorker: null, // disable service workers
     },
   ],
   testing: {
