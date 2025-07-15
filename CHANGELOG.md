@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.2...v0.0.2) (2025-07-15)
+
+
+### Features
+
+* **chat-store:** add chat store for centralized data management ([acb7b39](https://github.com/joy-dey/juno/commit/acb7b399b938942aaa0052bbaeada9f8023aa514))
+
 ### [0.0.2-alpha.2](https://github.com/joy-dey/juno/compare/v0.0.2-alpha.1...v0.0.2-alpha.2) (2025-07-14)
 
 
