@@ -9,12 +9,12 @@
 
 ### Used by
 
- - [chat-widget](../chat-widget)
+ - [chat-area](../chat-area)
 
 ### Graph
 ```mermaid
 graph TD;
-  chat-widget --> typing-indicator
+  chat-area --> typing-indicator
   style typing-indicator fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

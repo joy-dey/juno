@@ -7,18 +7,11 @@
 
 ## Properties
 
-| Property           | Attribute           | Description | Type     | Default     |
-| ------------------ | ------------------- | ----------- | -------- | ----------- |
-| `botName`          | `bot-name`          |             | `string` | `'Juno'`    |
-| `buttonBackground` | `button-background` |             | `string` | `'#c9ff07'` |
-| `socketURL`        | `socket-u-r-l`      |             | `string` | `''`        |
-
-
-## Events
-
-| Event                | Description | Type                   |
-| -------------------- | ----------- | ---------------------- |
-| `socketChangeStatus` |             | `CustomEvent<boolean>` |
+| Property           | Attribute           | Description | Type     | Default                       |
+| ------------------ | ------------------- | ----------- | -------- | ----------------------------- |
+| `agent`            | `agent`             |             | `string` | `'Juno'`                      |
+| `buttonBackground` | `button-background` |             | `string` | `'oklch(0.491 0.27 292.581)'` |
+| `socketURL`        | `socket-u-r-l`      |             | `string` | `''`                          |
 
 
 ## Dependencies
@@ -26,14 +19,13 @@
 ### Depends on
 
 - [chat-area](../chat-area)
-- [typing-indicator](../typing-indicator)
 
 ### Graph
 ```mermaid
 graph TD;
   chat-widget --> chat-area
-  chat-widget --> typing-indicator
   chat-area --> chat-bubble
+  chat-area --> typing-indicator
   style chat-widget fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

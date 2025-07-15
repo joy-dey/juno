@@ -7,21 +7,16 @@
 
 ## Properties
 
-| Property                 | Attribute                  | Description | Type                                                               | Default                                                                                                         |
-| ------------------------ | -------------------------- | ----------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `botName`                | `bot-name`                 |             | `string`                                                           | `''`                                                                                                            |
-| `disclaimerText`         | `disclaimer-text`          |             | `string`                                                           | `"I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."` |
-| `isBotTyping`            | `is-bot-typing`            |             | `boolean`                                                          | `false`                                                                                                         |
-| `isSocketConnected`      | `is-socket-connected`      |             | `boolean`                                                          | `false`                                                                                                         |
-| `messages`               | `messages`                 |             | `{ type: "user" \| "bot"; message: string; timestamp: string; }[]` | `undefined`                                                                                                     |
-| `socketConnectionStatus` | `socket-connection-status` |             | `"offline" \| "online" \| "reconnecting"`                          | `'offline'`                                                                                                     |
+| Property         | Attribute         | Description | Type     | Default                                                                                                         |
+| ---------------- | ----------------- | ----------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| `agent`          | `agent`           |             | `string` | `''`                                                                                                            |
+| `disclaimerText` | `disclaimer-text` |             | `string` | `"I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."` |
 
 
 ## Events
 
 | Event                       | Description | Type                  |
 | --------------------------- | ----------- | --------------------- |
-| `requestClose`              |             | `CustomEvent<void>`   |
 | `requestSocketReconnection` |             | `CustomEvent<void>`   |
 | `sentMessage`               |             | `CustomEvent<string>` |
 
@@ -35,11 +30,13 @@
 ### Depends on
 
 - [chat-bubble](../chat-bubble)
+- [typing-indicator](../typing-indicator)
 
 ### Graph
 ```mermaid
 graph TD;
   chat-area --> chat-bubble
+  chat-area --> typing-indicator
   chat-widget --> chat-area
   style chat-area fill:#f9f,stroke:#333,stroke-width:4px
 ```
