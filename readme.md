@@ -29,7 +29,7 @@ npm install @joydey/juno
 No extra setup required:
 
 ```html
-<chat-widget socket-url="wss://your-chat-backend.example.com/socket" />
+<chat-widget socket-url="wss://your-chat-backend.example.com/socket" agent="Juno" button-background="#212529" />
 ```
 
 If bundling manually, also include:
@@ -60,6 +60,8 @@ function App() {
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.setAttribute('socket-url', 'wss://your-chat.example.com/socket');
+      chatRef.current.setAttribute('agent', 'Juno');
+      chatRef.current.setAttribute('button-background', '#212529');
     }
   }, []);
 
@@ -114,6 +116,8 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.chatEl.nativeElement.setAttribute('socket-url', 'wss://your-chat.example.com/socket');
+    this.chatEl.nativeElement.setAttribute('agent', 'Juno');
+    this.chatEl.nativeElement.setAttribute('button-background', '#212529');
   }
 }
 ```
@@ -127,7 +131,7 @@ export class AppComponent implements AfterViewInit {
 | Property           | Type     | Required | Description                                                        |
 | ------------------ | -------- | -------- | ------------------------------------------------------------------ |
 | `socketUrl`        | `string` | ✅       | WebSocket URL to connect to your chat backend                      |
-| `botName`          | `string` | ✅       | Name of the bot displayed on top of chat window. (default is juno) |
+| `agent`            | `string` | ✅       | Name of the bot displayed on top of chat window. (default is juno) |
 | `buttonBackground` | `string` | ✅       | Color of the chat button                                           |
 
 ---
