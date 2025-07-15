@@ -1,4 +1,5 @@
-import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
+import { chatActions, ChatMessage, chatState, ChatState, onChatStateChange } from '../../store/chat-store';
 
 @Component({
   tag: 'chat-area',
@@ -7,19 +8,17 @@ import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@st
 })
 export class ChatArea {
   @Prop() botName: string = '';
-  @Prop() messages: { type: 'user' | 'bot'; message: string; timestamp: string }[];
-  @Prop() isSocketConnected: boolean = false;
-  @Prop() isBotTyping: boolean = false;
-  @Prop() socketConnectionStatus: 'online' | 'offline' | 'reconnecting' = 'offline';
+  @State() messages: ChatMessage[] = chatState.messages;
+  @State() isSocketConnected: boolean = chatState.isSocketConnected;
+  @State() isBotTyping: boolean = chatState.isBotTyping;
+  @State() socketConnectionStatus: ChatState['socketConnectionStatus'] = chatState.socketConnectionStatus;
   @Prop() disclaimerText: string = "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.";
 
-  @State() isLoading: boolean = false;
   @State() isMaximized: boolean = false;
   @State() transcript: string = '';
   @State() isRecognizing: boolean = false;
 
   @Event() sentMessage: EventEmitter<string>;
-  @Event() requestClose: EventEmitter<void>;
   @Event() requestSocketReconnection: EventEmitter<void>;
 
   private recognition: any;
@@ -27,16 +26,21 @@ export class ChatArea {
   private hostElement: HTMLElement;
   private messageBoxElement: HTMLInputElement;
 
-  @Watch('isBotTyping')
-  handleBotTyping(newVal: boolean) {
-    if (!newVal) {
-      this.isLoading = false;
-    }
-  }
-
   componentDidLoad() {
     document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleEscape);
+
+    onChatStateChange('messages', message => {
+      this.messages = message;
+    });
+
+    onChatStateChange('socketConnectionStatus', value => {
+      this.socketConnectionStatus = value;
+    });
+
+    onChatStateChange('isBotTyping', value => {
+      this.isBotTyping = value;
+    });
 
     // speech recognition
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -100,23 +104,19 @@ export class ChatArea {
   private handleClickOutside = (event: MouseEvent) => {
     const path = event.composedPath();
     if (!path.includes(this.hostElement)) {
-      this.requestClose.emit();
+      chatActions.closeChat();
     }
   };
 
   private handleEscape = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      this.requestClose.emit();
+      chatActions.closeChat();
     }
   };
 
   private handleUserInput = (event: Event) => {
     const target = event.target as HTMLInputElement;
     this.transcript = target.value;
-  };
-
-  private handleClose = () => {
-    this.requestClose.emit();
   };
 
   private requestReconnection = () => {
@@ -127,7 +127,6 @@ export class ChatArea {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData: FormData = new FormData(form);
-    this.isLoading = true;
     this.sentMessage.emit(formData.get('message').toString());
     this.transcript = '';
 
@@ -173,7 +172,7 @@ export class ChatArea {
                 <p>{this.botName}</p>
                 <div
                   class={`juno-status-indicator ${
-                    this.socketConnectionStatus === 'reconnecting' ? 'reconnecting' : this.socketConnectionStatus === 'online' ? 'online' : 'offline'
+                    this.socketConnectionStatus === 'connecting' ? 'reconnecting' : this.socketConnectionStatus === 'connected' ? 'online' : 'offline'
                   }`}
                   title={`${this.botName} is ${this.socketConnectionStatus}`}
                 >
@@ -202,7 +201,7 @@ export class ChatArea {
                   </svg>
                 )}
               </button>
-              {this.socketConnectionStatus === 'offline' && (
+              {this.socketConnectionStatus === 'disconnected' && (
                 <button class="juno-size-button" onClick={() => this.requestReconnection()}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4C14.7486 4 17.1749 5.38626 18.6156 7.5H16V9.5H22V3.5H20V5.99936C18.1762 3.57166 15.2724 2 12 2C6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20C9.25144 20 6.82508 18.6137 5.38443 16.5H8V14.5H2V20.5H4V18.0006C5.82381 20.4283 8.72764 22 12 22C17.5228 22 22 17.5228 22 12H20Z"></path>
@@ -210,7 +209,7 @@ export class ChatArea {
                 </button>
               )}
 
-              <button class="juno-size-button close-button" onClick={() => this.handleClose()}>
+              <button class="juno-size-button close-button" onClick={() => chatActions.closeChat()}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
                 </svg>
@@ -222,7 +221,7 @@ export class ChatArea {
             {this.messages.map(({ type, message, timestamp }) => (
               <chat-bubble type={type} message={message} timestamp={timestamp}></chat-bubble>
             ))}
-            <slot></slot>
+            {this.isBotTyping && <typing-indicator></typing-indicator>}
           </div>
           <div class="juno-chat-footer">
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
@@ -239,7 +238,7 @@ export class ChatArea {
 
               {this.transcript.trim() === '' ? (
                 !this.isRecognizing ? (
-                  <button type="button" disabled={this.isLoading || !this.isSocketConnected} onClick={() => this.startRecognition()} title="Dictate">
+                  <button type="button" disabled={this.isBotTyping || this.socketConnectionStatus !== 'connected'} onClick={() => this.startRecognition()} title="Dictate">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12.0001 1C14.7615 1 17.0001 3.23858 17.0001 6V12C17.0001 14.7614 14.7615 17 12.0001 17C9.23865 17 7.00008 14.7614 7.00008 12V6C7.00008 3.23858 9.23865 1 12.0001 1ZM2.19238 13.9615L4.15392 13.5692C4.88321 17.2361 8.11888 20 12.0001 20C15.8813 20 19.1169 17.2361 19.8462 13.5692L21.8078 13.9615C20.8961 18.5452 16.8516 22 12.0001 22C7.14858 22 3.104 18.5452 2.19238 13.9615Z"></path>
                     </svg>
@@ -252,8 +251,8 @@ export class ChatArea {
                   </button>
                 )
               ) : (
-                <button type="submit" disabled={this.isLoading || !this.isSocketConnected}>
-                  {this.isLoading ? (
+                <button type="submit" disabled={this.isBotTyping || this.socketConnectionStatus !== 'connected'}>
+                  {this.isBotTyping ? (
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="spin">
                       <path d="M12 2C12.5523 2 13 2.44772 13 3V6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6V3C11 2.44772 11.4477 2 12 2ZM12 17C12.5523 17 13 17.4477 13 18V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V18C11 17.4477 11.4477 17 12 17ZM22 12C22 12.5523 21.5523 13 21 13H18C17.4477 13 17 12.5523 17 12C17 11.4477 17.4477 11 18 11H21C21.5523 11 22 11.4477 22 12ZM7 12C7 12.5523 6.55228 13 6 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H6C6.55228 11 7 11.4477 7 12ZM19.0711 19.0711C18.6805 19.4616 18.0474 19.4616 17.6569 19.0711L15.5355 16.9497C15.145 16.5592 15.145 15.9261 15.5355 15.5355C15.9261 15.145 16.5592 15.145 16.9497 15.5355L19.0711 17.6569C19.4616 18.0474 19.4616 18.6805 19.0711 19.0711ZM8.46447 8.46447C8.07394 8.85499 7.44078 8.85499 7.05025 8.46447L4.92893 6.34315C4.53841 5.95262 4.53841 5.31946 4.92893 4.92893C5.31946 4.53841 5.95262 4.53841 6.34315 4.92893L8.46447 7.05025C8.85499 7.44078 8.85499 8.07394 8.46447 8.46447ZM4.92893 19.0711C4.53841 18.6805 4.53841 18.0474 4.92893 17.6569L7.05025 15.5355C7.44078 15.145 8.07394 15.145 8.46447 15.5355C8.85499 15.9261 8.85499 16.5592 8.46447 16.9497L6.34315 19.0711C5.95262 19.4616 5.31946 19.4616 4.92893 19.0711ZM15.5355 8.46447C15.145 8.07394 15.145 7.44078 15.5355 7.05025L17.6569 4.92893C18.0474 4.53841 18.6805 4.53841 19.0711 4.92893C19.4616 5.31946 19.4616 5.95262 19.0711 6.34315L16.9497 8.46447C16.5592 8.85499 15.9261 8.85499 15.5355 8.46447Z"></path>
                     </svg>
