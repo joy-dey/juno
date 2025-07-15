@@ -7,7 +7,7 @@ import { chatActions, ChatMessage, chatState, ChatState, onChatStateChange } fro
   shadow: true,
 })
 export class ChatArea {
-  @Prop() botName: string = '';
+  @Prop() agent: string = '';
   @State() messages: ChatMessage[] = chatState.messages;
   @State() isSocketConnected: boolean = chatState.isSocketConnected;
   @State() isBotTyping: boolean = chatState.isBotTyping;
@@ -169,12 +169,12 @@ export class ChatArea {
             </div>
             <div class="brand-info">
               <div class="flex-group">
-                <p>{this.botName}</p>
+                <p>{this.agent}</p>
                 <div
                   class={`juno-status-indicator ${
                     this.socketConnectionStatus === 'connecting' ? 'reconnecting' : this.socketConnectionStatus === 'connected' ? 'online' : 'offline'
                   }`}
-                  title={`${this.botName} is ${this.socketConnectionStatus}`}
+                  title={`${this.agent} is ${this.socketConnectionStatus}`}
                 >
                   <div class="status"></div>
                 </div>
