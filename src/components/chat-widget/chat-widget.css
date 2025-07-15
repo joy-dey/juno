@@ -37,7 +37,6 @@
 
   svg {
     fill: var(--fill);
-    mix-blend-mode: difference;
   }
 
   &:hover {
