@@ -29,6 +29,8 @@ export class ChatWidget {
   componentWillLoad() {
     if (this.socketURL) {
       this.connectWebSocket();
+    } else {
+      chatState.socketConnectionStatus = 'disconnected';
     }
 
     onChatStateChange('isOpen', value => {
@@ -37,8 +39,9 @@ export class ChatWidget {
   }
 
   private connectWebSocket() {
-    this.socket = new WebSocket(this.socketURL);
+    if (!this.socketURL || this.socketURL.trim() === '') return;
 
+    this.socket = new WebSocket(this.socketURL);
     this.socket.onopen = event => {
       this.isSocketConnected = true;
       chatActions.setSocketConnection('connected');
