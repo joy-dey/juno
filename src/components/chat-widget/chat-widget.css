@@ -19,7 +19,7 @@
 }
 
 .juno-fab {
-  background-color: var(--background-color);
+  background: var(--background-color);
   width: var(--width);
   height: var(--height);
   border-radius: var(--border-radius);
