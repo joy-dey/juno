@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, h } from '@stencil/core';
+import { Component, Host, Prop, State, Watch, h } from '@stencil/core';
 import { chatActions, ChatMessage, ChatState, chatState, onChatStateChange } from '../../store/chat-store';
 
 @Component({
@@ -22,6 +22,13 @@ export class ChatWidget {
   @State() isBotTyping: boolean = chatState.isBotTyping;
   @State() isSocketConnected: boolean = chatState.isSocketConnected;
   @State() socketConnectionStatus: ChatState['socketConnectionStatus'] = chatState.socketConnectionStatus;
+
+  @Watch('socketURL')
+  onSocketURLChange(newValue: string) {
+    if (newValue) {
+      this.connectWebSocket();
+    }
+  }
 
   connectedCallback() {
     console.log('%cInitialized%c Juno initialized', 'color: white; font-size: 10px; background: #762fff; padding: .25rem .5rem; border-radius: .35rem', '');
@@ -146,6 +153,11 @@ export class ChatWidget {
       });
     }
   }
+
+  disconnectedCallback() {
+    this.socket?.close();
+  }
+
   render() {
     return (
       <Host>
