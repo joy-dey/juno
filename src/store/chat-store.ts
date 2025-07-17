@@ -20,6 +20,9 @@ export interface ChatState {
 
   // ui state
   isOpen: boolean;
+
+  // data
+  disclaimerText: string;
 }
 
 const { state, onChange } = createStore<ChatState>({
@@ -31,6 +34,8 @@ const { state, onChange } = createStore<ChatState>({
   reconnectAttempts: 0,
 
   isOpen: false,
+
+  disclaimerText: '',
 });
 
 export { state as chatState, onChange as onChatStateChange };
@@ -66,5 +71,9 @@ export const chatActions = {
 
   toggleChat: () => {
     state.isOpen = !state.isOpen;
+  },
+
+  setDisclaimerText: (text: string) => {
+    state.disclaimerText = text;
   },
 };
