@@ -40,6 +40,10 @@ export namespace Components {
          */
         "buttonBackground": string;
         /**
+          * @default 5
+         */
+        "maxReconnectAttempts": number;
+        /**
           * @default ''
          */
         "socketURL": string;
@@ -131,6 +135,10 @@ declare namespace LocalJSX {
           * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground"?: string;
+        /**
+          * @default 5
+         */
+        "maxReconnectAttempts"?: number;
         /**
           * @default ''
          */
