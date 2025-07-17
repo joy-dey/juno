@@ -30,6 +30,11 @@ export class ChatWidget {
     }
   }
 
+  @Watch('disclaimerText')
+  onDisclaimerTextChange(newValue: string) {
+    chatActions.setDisclaimerText(newValue);
+  }
+
   connectedCallback() {
     console.log('%cInitialized%c Juno initialized', 'color: white; font-size: 10px; background: #762fff; padding: .25rem .5rem; border-radius: .35rem', '');
   }
