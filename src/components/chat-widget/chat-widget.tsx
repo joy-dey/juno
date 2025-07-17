@@ -15,6 +15,7 @@ export class ChatWidget {
   @Prop() agent: string = 'Juno';
   @Prop() buttonBackground: string = 'oklch(0.491 0.27 292.581)';
   @Prop() maxReconnectAttempts = 5;
+  @Prop() disclaimerText = "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.";
 
   @State() messages: ChatMessage[] = chatState.messages;
   @State() isOpen: boolean = chatState.isOpen;
@@ -32,6 +33,8 @@ export class ChatWidget {
     } else {
       chatState.socketConnectionStatus = 'disconnected';
     }
+
+    chatActions.setDisclaimerText(this.disclaimerText);
 
     onChatStateChange('isOpen', value => {
       this.isOpen = value;
