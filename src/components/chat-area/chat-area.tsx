@@ -12,7 +12,7 @@ export class ChatArea {
   @State() isSocketConnected: boolean = chatState.isSocketConnected;
   @State() isBotTyping: boolean = chatState.isBotTyping;
   @State() socketConnectionStatus: ChatState['socketConnectionStatus'] = chatState.socketConnectionStatus;
-  @Prop() disclaimerText: string = "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date.";
+  @State() disclaimerText: string = chatState.disclaimerText;
 
   @State() isMaximized: boolean = false;
   @State() transcript: string = '';
@@ -224,6 +224,9 @@ export class ChatArea {
             {this.isBotTyping && <typing-indicator></typing-indicator>}
           </div>
           <div class="juno-chat-footer">
+            <div class="suggestions">
+              <span>What is Homestay?</span>
+            </div>
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
               <input
                 ref={el => (this.messageBoxElement = el)}
