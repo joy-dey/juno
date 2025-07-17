@@ -11,10 +11,6 @@ export namespace Components {
           * @default ''
          */
         "agent": string;
-        /**
-          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
-         */
-        "disclaimerText": string;
     }
     interface ChatBubble {
         /**
@@ -39,6 +35,10 @@ export namespace Components {
           * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground": string;
+        /**
+          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
+         */
+        "disclaimerText": string;
         /**
           * @default 5
          */
@@ -105,10 +105,6 @@ declare namespace LocalJSX {
           * @default ''
          */
         "agent"?: string;
-        /**
-          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
-         */
-        "disclaimerText"?: string;
         "onRequestSocketReconnection"?: (event: ChatAreaCustomEvent<void>) => void;
         "onSentMessage"?: (event: ChatAreaCustomEvent<string>) => void;
     }
@@ -135,6 +131,10 @@ declare namespace LocalJSX {
           * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground"?: string;
+        /**
+          * @default "I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."
+         */
+        "disclaimerText"?: string;
         /**
           * @default 5
          */
