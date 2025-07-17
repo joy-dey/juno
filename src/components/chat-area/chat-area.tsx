@@ -224,9 +224,6 @@ export class ChatArea {
             {this.isBotTyping && <typing-indicator></typing-indicator>}
           </div>
           <div class="juno-chat-footer">
-            <div class="suggestions">
-              <span>What is Homestay?</span>
-            </div>
             <form onSubmit={this.handleFormSubmit} autoComplete="off">
               <input
                 ref={el => (this.messageBoxElement = el)}
