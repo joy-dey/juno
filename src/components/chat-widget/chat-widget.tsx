@@ -9,12 +9,12 @@ import { chatActions, ChatMessage, ChatState, chatState, onChatStateChange } fro
 export class ChatWidget {
   private socket: WebSocket | null = null;
   private reconnectAttempts: number = 0;
-  private readonly maxReconnectAttempts = 5;
   private responseTimeout: any = null;
 
   @Prop() socketURL: string = '';
   @Prop() agent: string = 'Juno';
   @Prop() buttonBackground: string = 'oklch(0.491 0.27 292.581)';
+  @Prop() maxReconnectAttempts = 5;
 
   @State() messages: ChatMessage[] = chatState.messages;
   @State() isOpen: boolean = chatState.isOpen;
