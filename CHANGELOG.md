@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/joy-dey/juno/compare/v0.0.3...v1.0.0) (2025-07-17)
+
+
+### Features
+
+* **chat-area:** add spin animation to reconnect button while attempting to connect ([2413eb4](https://github.com/joy-dey/juno/commit/2413eb47282313fa4c0ff6b08e434cc5d48c4570))
+* **chat-area:** implement store based disclaimer text ([a83287a](https://github.com/joy-dey/juno/commit/a83287a810dc4a0493c583bcabcd1a7913bf3c3f))
+* **chat-bubble:** add feature to stop uttering ([2f39375](https://github.com/joy-dey/juno/commit/2f39375cf63d6aa12f40135402d22436fd1e47b6))
+* **chat-store:** add disclaimerText to chat-store ([f8ec2aa](https://github.com/joy-dey/juno/commit/f8ec2aa8981d972b412fa6fa068f8cb42003da02))
+* **chat-widget:** add disclaimerText prop to allow user customization ([3cc79f1](https://github.com/joy-dey/juno/commit/3cc79f11625ff51d45739c4e6733579ab32bcb86))
+* **chat-widget:** add feature to allow customization of maximum socket reconnect attempts ([f467a95](https://github.com/joy-dey/juno/commit/f467a9544a465e601f4015f26fa5928f0302c6df))
+* **chat:** remove old messages on component initialization ([b31b5cd](https://github.com/joy-dey/juno/commit/b31b5cdfdd0c08d72c32d4ea5898eadcbf2aa884))
+* **components:** add disclaimerText as prop to chat-widget and remove from chat-area ([0e5f22d](https://github.com/joy-dey/juno/commit/0e5f22d4df5840b7f2699c694bded7c3a19c2041))
+* **components:** add maxReconnectAttempts to ChatWidget interface ([fb3d153](https://github.com/joy-dey/juno/commit/fb3d1537fb193b8d035a8665fe7cbbef8c4f081f))
+
+
+### Bug Fixes
+
+* **chat-widget:** fix disclaimer text not updating from prop ([5318769](https://github.com/joy-dey/juno/commit/531876928a1e0b04f04842f7007b7fbd7289e6aa))
+* **chat-widget:** fix socket connection issue on prop change ([cd3513d](https://github.com/joy-dey/juno/commit/cd3513dfbe4d6edd2fd5a9a2bc111a8ef2400d24))
+
 ### [0.0.3](https://github.com/joy-dey/juno/compare/v0.0.2...v0.0.3) (2025-07-15)
 
 
