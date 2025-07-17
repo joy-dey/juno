@@ -45,6 +45,10 @@ export const chatActions = {
     state.messages = [...state.messages, message];
   },
 
+  clearMessages: () => {
+    state.messages = [];
+  },
+
   setBotTyping: (isTyping: boolean) => {
     state.isBotTyping = isTyping;
   },

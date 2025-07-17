@@ -35,6 +35,7 @@ export class ChatWidget {
   }
 
   componentWillLoad() {
+    chatActions.clearMessages();
     if (this.socketURL) {
       this.connectWebSocket();
     } else {
