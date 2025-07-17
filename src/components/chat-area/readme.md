@@ -7,10 +7,9 @@
 
 ## Properties
 
-| Property         | Attribute         | Description | Type     | Default                                                                                                         |
-| ---------------- | ----------------- | ----------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-| `agent`          | `agent`           |             | `string` | `''`                                                                                                            |
-| `disclaimerText` | `disclaimer-text` |             | `string` | `"I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."` |
+| Property | Attribute | Description | Type     | Default |
+| -------- | --------- | ----------- | -------- | ------- |
+| `agent`  | `agent`   |             | `string` | `''`    |
 
 
 ## Events
