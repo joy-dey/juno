@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/joy-dey/juno/compare/v1.0.0...v1.1.0) (2025-07-18)
+
+
+### Features
+
+* **chat-area:** enhance chat area functionality ([e68a91b](https://github.com/joy-dey/juno/commit/e68a91bdef8c92c6434e2a38c30e7bdbe9867915))
+* **chat-widget:** add allowNotifications prop and refactor clearMessage implementation ([f0d50a2](https://github.com/joy-dey/juno/commit/f0d50a27c18017cacd73c913c2e737893083eb8d))
+* **components:** add allowNotifications to ChatWidget interface ([9065083](https://github.com/joy-dey/juno/commit/906508361d37b3028a1c1088969c81c60c0a18fe))
+
 ## [1.0.0](https://github.com/joy-dey/juno/compare/v0.0.3...v1.0.0) (2025-07-17)
 
 
