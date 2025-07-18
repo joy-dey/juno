@@ -32,6 +32,10 @@ export namespace Components {
          */
         "agent": string;
         /**
+          * @default false
+         */
+        "allowNotifications": boolean;
+        /**
           * @default 'oklch(0.491 0.27 292.581)'
          */
         "buttonBackground": string;
@@ -127,6 +131,10 @@ declare namespace LocalJSX {
           * @default 'Juno'
          */
         "agent"?: string;
+        /**
+          * @default false
+         */
+        "allowNotifications"?: boolean;
         /**
           * @default 'oklch(0.491 0.27 292.581)'
          */
