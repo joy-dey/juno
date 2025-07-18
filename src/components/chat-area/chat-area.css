@@ -11,7 +11,7 @@
   color: #000;
   border: 1px solid #f8fafc;
   position: fixed;
-  bottom: 5rem;
+  bottom: 1rem;
   right: 1rem;
   transform: scale(1);
   transition: all 300ms ease-in-out;
@@ -130,9 +130,6 @@
         margin-bottom: 0;
       }
     }
-    .close-button {
-      display: none;
-    }
   }
 
   .juno-chat-container {
@@ -215,8 +212,10 @@
   }
 
   &:is(.maximized) {
-    max-width: 70svw;
-    height: 85svh;
+    max-width: 100svw;
+    height: 100svh;
+    bottom: 0;
+    right: 0;
   }
 }
 
