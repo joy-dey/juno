@@ -128,11 +128,14 @@ export class AppComponent implements AfterViewInit {
 
 ### Properties
 
-| Property           | Type     | Required | Description                                                        |
-| ------------------ | -------- | -------- | ------------------------------------------------------------------ |
-| `socketUrl`        | `string` | ✅       | WebSocket URL to connect to your chat backend                      |
-| `agent`            | `string` | ✅       | Name of the bot displayed on top of chat window. (default is juno) |
-| `buttonBackground` | `string` | ✅       | Color of the chat button                                           |
+| Property               | Attribute                | Description | Type      | Default                                                                                                         |
+| ---------------------- | ------------------------ | ----------- | --------- | --------------------------------------------------------------------------------------------------------------- |
+| `agent`                | `agent`                  |             | `string`  | `'Juno'`                                                                                                        |
+| `allowNotifications`   | `allow-notifications`    |             | `boolean` | `false`                                                                                                         |
+| `buttonBackground`     | `button-background`      |             | `string`  | `'oklch(0.491 0.27 292.581)'`                                                                                   |
+| `disclaimerText`       | `disclaimer-text`        |             | `string`  | `"I'm an AI chatbot. While I aim for accuracy, my responses may not always be entirely correct or up-to-date."` |
+| `maxReconnectAttempts` | `max-reconnect-attempts` |             | `number`  | `5`                                                                                                             |
+| `socketURL`            | `socket-u-r-l`           |             | `string`  | `''`                                                                                                            |
 
 ---
 
