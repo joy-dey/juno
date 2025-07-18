@@ -8,8 +8,7 @@ import { chatActions, ChatMessage, chatState, ChatState, onChatStateChange } fro
 })
 export class ChatArea {
   @Prop() agent: string = '';
-  @State() messages: ChatMessage[] = chatState.messages;
-  @State() isSocketConnected: boolean = chatState.isSocketConnected;
+  @State() messages: ChatMessage[] = [];
   @State() isBotTyping: boolean = chatState.isBotTyping;
   @State() socketConnectionStatus: ChatState['socketConnectionStatus'] = chatState.socketConnectionStatus;
   @State() disclaimerText: string = chatState.disclaimerText;
@@ -17,6 +16,7 @@ export class ChatArea {
   @State() isMaximized: boolean = false;
   @State() transcript: string = '';
   @State() isRecognizing: boolean = false;
+  @State() isPopupOpen: boolean = false;
 
   @Event() sentMessage: EventEmitter<string>;
   @Event() requestSocketReconnection: EventEmitter<void>;
@@ -25,10 +25,10 @@ export class ChatArea {
   private chatContainerEl?: HTMLDivElement;
   private hostElement: HTMLElement;
   private messageBoxElement: HTMLInputElement;
+  private actionPopup: HTMLDivElement;
 
-  componentDidLoad() {
-    document.addEventListener('click', this.handleClickOutside);
-    document.addEventListener('keydown', this.handleEscape);
+  componentWillLoad() {
+    this.messages = chatState.messages;
 
     onChatStateChange('messages', message => {
       this.messages = message;
@@ -41,6 +41,12 @@ export class ChatArea {
     onChatStateChange('isBotTyping', value => {
       this.isBotTyping = value;
     });
+  }
+
+  componentDidLoad() {
+    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('click', this.togglePopupOnOutsideClick, true);
+    document.addEventListener('keydown', this.handleEscape);
 
     // speech recognition
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -147,6 +153,17 @@ export class ChatArea {
     URL.revokeObjectURL(url);
   }
 
+  togglePopup() {
+    this.isPopupOpen = !this.isPopupOpen;
+  }
+
+  private togglePopupOnOutsideClick = (event: MouseEvent) => {
+    const path = event.composedPath();
+    if (this.isPopupOpen && !path.includes(this.actionPopup)) {
+      this.isPopupOpen = false;
+    }
+  };
+
   render() {
     return (
       <Host ref={el => (this.hostElement = el)}>
@@ -182,14 +199,28 @@ export class ChatArea {
               <small>{this.isBotTyping ? 'typing...' : this.socketConnectionStatus}</small>
             </div>
             <div class="juno-buttons-container">
-              {this.messages.length > 2 && (
-                <button class="juno-size-button" title="Download Transcript" onClick={() => this.downloadMessagesAsText()}>
+              <div class="action-wrapper">
+                <button class="juno-size-button" onClick={() => this.togglePopup()}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path>
+                    <path d="M12 3C10.9 3 10 3.9 10 5C10 6.1 10.9 7 12 7C13.1 7 14 6.1 14 5C14 3.9 13.1 3 12 3ZM12 17C10.9 17 10 17.9 10 19C10 20.1 10.9 21 12 21C13.1 21 14 20.1 14 19C14 17.9 13.1 17 12 17ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z"></path>
                   </svg>
                 </button>
-              )}
 
+                <div class={`popup-content ${this.isPopupOpen ? 'active' : ''}`} ref={el => (this.actionPopup = el)}>
+                  <button class="popup-action" onClick={() => this.requestReconnection()}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class={this.socketConnectionStatus === 'connecting' ? 'spin' : ''}>
+                      <path d="M12 4C14.5905 4 16.8939 5.23053 18.3573 7.14274L16 9.5H22V3.5L19.7814 5.71863C17.9494 3.452 15.1444 2 12 2 6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20 9.40951 20 7.10605 18.7695 5.64274 16.8573L8 14.5 2 14.5V20.5L4.21863 18.2814C6.05062 20.548 8.85557 22 12 22 17.5228 22 22 17.5228 22 12H20Z"></path>
+                    </svg>
+                    <span>{this.socketConnectionStatus === 'connecting' ? 'Connecting ...' : 'Reconnect'}</span>
+                  </button>
+                  <button class="popup-action" disabled={this.messages.length < 1} onClick={() => this.downloadMessagesAsText()}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M13 12H16L12 16L8 12H11V8H13V12ZM15 4H5V20H19V8H15V4ZM3 2.9918C3 2.44405 3.44749 2 3.9985 2H16L20.9997 7L21 20.9925C21 21.5489 20.5551 22 20.0066 22H3.9934C3.44476 22 3 21.5447 3 21.0082V2.9918Z"></path>
+                    </svg>
+                    <span>Download Transcript</span>
+                  </button>
+                </div>
+              </div>
               <button class="juno-size-button maximize-button" onClick={() => (this.isMaximized = !this.isMaximized)}>
                 {!this.isMaximized ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -201,13 +232,6 @@ export class ChatArea {
                   </svg>
                 )}
               </button>
-              {['disconnected', 'connecting'].includes(this.socketConnectionStatus) && (
-                <button class="juno-size-button" onClick={() => this.requestReconnection()}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class={this.socketConnectionStatus === 'connecting' ? 'spin' : ''}>
-                    <path d="M12 4C14.7486 4 17.1749 5.38626 18.6156 7.5H16V9.5H22V3.5H20V5.99936C18.1762 3.57166 15.2724 2 12 2C6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20C9.25144 20 6.82508 18.6137 5.38443 16.5H8V14.5H2V20.5H4V18.0006C5.82381 20.4283 8.72764 22 12 22C17.5228 22 22 17.5228 22 12H20Z"></path>
-                  </svg>
-                </button>
-              )}
 
               <button class="juno-size-button close-button" onClick={() => chatActions.closeChat()}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -239,8 +263,23 @@ export class ChatArea {
               {this.transcript.trim() === '' ? (
                 !this.isRecognizing ? (
                   <button type="button" disabled={this.isBotTyping || this.socketConnectionStatus !== 'connected'} onClick={() => this.startRecognition()} title="Dictate">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12.0001 1C14.7615 1 17.0001 3.23858 17.0001 6V12C17.0001 14.7614 14.7615 17 12.0001 17C9.23865 17 7.00008 14.7614 7.00008 12V6C7.00008 3.23858 9.23865 1 12.0001 1ZM2.19238 13.9615L4.15392 13.5692C4.88321 17.2361 8.11888 20 12.0001 20C15.8813 20 19.1169 17.2361 19.8462 13.5692L21.8078 13.9615C20.8961 18.5452 16.8516 22 12.0001 22C7.14858 22 3.104 18.5452 2.19238 13.9615Z"></path>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 10v3" />
+                      <path d="M6 6v11" />
+                      <path d="M10 3v18" />
+                      <path d="M14 8v7" />
+                      <path d="M18 5v13" />
+                      <path d="M22 10v3" />
                     </svg>
                   </button>
                 ) : (
