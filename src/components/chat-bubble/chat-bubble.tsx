@@ -36,6 +36,10 @@ export class ChatBubble {
     window.speechSynthesis.speak(utterance);
     this.isSpeaking = true;
     this.showActions = false;
+
+    utterance.onend = () => {
+      this.isSpeaking = false;
+    };
   };
 
   private stopSpeaking = () => {
