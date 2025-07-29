@@ -11,6 +11,39 @@ export class ChatWidget {
   private reconnectAttempts: number = 0;
   private responseTimeout: any = null;
 
+  private lateResponseMessages = [
+    'Whoa, sorry — got a little carried away thinking!',
+    'Ahh, my brain needed an extra second on that one.',
+    'Oops, that took me on a mini deep dive!',
+    'Sorry! Was chewing on that for a moment.',
+    'Just needed a sec to wrap my head around that!',
+    'Got a bit lost in thought there — back now!',
+    "Okay okay, I took a detour in my brain. Let's go.",
+    "That one made me pause for a minute — here's what I think.",
+    'Sorry for the slight delay — I wanted to make sure I got it right.',
+    'Took me a second to piece that together — thanks for waiting!',
+    'Still here! Just wanted to give it a proper think.',
+    "Needed a moment to make sure I wasn't totally off base 😅",
+    'Had to run that one through a few brain loops!',
+    'Hold on — my thoughts took the scenic route.',
+    'That question made me sit up straight for a sec!',
+    'Whew, that was a thinker. Got it now!',
+    'That took a bit longer in my head than I planned!',
+    'Oops, took the long way around answering that 😅',
+    'Sorry! Needed a quick brain reboot.',
+    "I swear I didn't disappear — just thinking a little too hard!",
+    "I went full 'overthinking mode' for a sec there!",
+    'Yikes, my thoughts did a bit of wandering. Let me get back on track.',
+    'Phew, sorry — that took me down a little mental rabbit hole.',
+    'My brain clocked out for a moment there 😅',
+    'Oh no, I mentally wandered off — bringing it back now!',
+    'Had to take a breath and actually *think* — rare, I know.',
+    "Give me a sec... okay, I'm back and focused!",
+    'Alright, that answer needed a little more marination.',
+    'Wow, my brain totally decided to go offline for a minute!',
+    "Okay okay, I stopped overanalyzing — here's what I've got!",
+  ];
+
   @Prop() socketURL: string = '';
   @Prop() agent: string = 'Juno';
   @Prop() buttonBackground: string = 'oklch(0.491 0.27 292.581)';
@@ -139,12 +172,13 @@ export class ChatWidget {
 
     this.responseTimeout = setTimeout(() => {
       this.isBotTyping = false;
+      const randomMessage = this.lateResponseMessages[Math.floor(Math.random() * this.lateResponseMessages.length)];
       chatActions.addMessage({
         type: 'bot',
-        message: 'Something went wrong! Please retry',
+        message: randomMessage,
         timestamp: this.formatDateIntl(new Date()),
       });
-    }, 180000);
+    }, 18000);
   }
 
   notify(message: string) {
