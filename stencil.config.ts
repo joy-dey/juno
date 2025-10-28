@@ -4,7 +4,7 @@ export const config: Config = {
   namespace: 'juno',
   minifyCss: true,
   minifyJs: true,
-  buildEs5: false,
+  buildEs5: true,
   devServer: {
     reloadStrategy: 'pageReload',
   },
