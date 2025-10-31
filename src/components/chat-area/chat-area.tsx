@@ -17,6 +17,9 @@ export class ChatArea {
   @State() transcript: string = '';
   @State() isRecognizing: boolean = false;
   @State() isPopupOpen: boolean = false;
+  @State() isResizePopupOpen: boolean = false;
+
+  @State() activePosition: 'right' | 'left' | 'top' | 'bottom' = 'right';
 
   @Event() sentMessage: EventEmitter<string>;
   @Event() requestSocketReconnection: EventEmitter<void>;
@@ -26,6 +29,7 @@ export class ChatArea {
   private hostElement: HTMLElement;
   private messageBoxElement: HTMLInputElement;
   private actionPopup: HTMLDivElement;
+  private resizePopup: HTMLDivElement;
 
   componentWillLoad() {
     this.messages = chatState.messages;
@@ -162,12 +166,15 @@ export class ChatArea {
     if (this.isPopupOpen && !path.includes(this.actionPopup)) {
       this.isPopupOpen = false;
     }
+    if (this.isResizePopupOpen && !path.includes(this.resizePopup)) {
+      this.isResizePopupOpen = false;
+    }
   };
 
   render() {
     return (
       <Host ref={el => (this.hostElement = el)}>
-        <div class={`juno-chat-area ${this.isMaximized ? 'maximized' : ''}`}>
+        <div class={`juno-chat-area ${this.activePosition} ${this.isMaximized ? 'maximized' : ''}`}>
           <div class="juno-chat-header">
             <div class="juno-brand-logo">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,17 +228,59 @@ export class ChatArea {
                   </button>
                 </div>
               </div>
-              <button class="juno-size-button maximize-button" onClick={() => (this.isMaximized = !this.isMaximized)}>
-                {!this.isMaximized ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M6.41421 5H10V3H3V10H5V6.41421L9.29289 10.7071L10.7071 9.29289L6.41421 5ZM21 14H19V17.5858L14.7071 13.2929L13.2929 14.7071L17.5858 19H14V21H21V14Z"></path>
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9.00008 4.00008H11.0001V11.0001H4.00008V9.00008H7.58586L3.29297 4.70718L4.70718 3.29297L9.00008 7.58586V4.00008ZM20 15H16.4142L20.7071 19.2929L19.2929 20.7071L15 16.4142V20H13V13H20V15Z"></path>
-                  </svg>
-                )}
-              </button>
+              <div class="action-wrapper">
+                <button
+                  class="juno-size-button maximize-button"
+                  onClick={() => (this.isMaximized = !this.isMaximized)}
+                  title="More Resizing Options"
+                  onMouseEnter={() => (this.isResizePopupOpen = !this.isResizePopupOpen)}
+                >
+                  {!this.isMaximized ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6.41421 5H10V3H3V10H5V6.41421L9.29289 10.7071L10.7071 9.29289L6.41421 5ZM21 14H19V17.5858L14.7071 13.2929L13.2929 14.7071L17.5858 19H14V21H21V14Z"></path>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9.00008 4.00008H11.0001V11.0001H4.00008V9.00008H7.58586L3.29297 4.70718L4.70718 3.29297L9.00008 7.58586V4.00008ZM20 15H16.4142L20.7071 19.2929L19.2929 20.7071L15 16.4142V20H13V13H20V15Z"></path>
+                    </svg>
+                  )}
+                </button>
+
+                <div class={`popup-content ${this.isResizePopupOpen ? 'active' : ''}`} ref={el => (this.resizePopup = el)}>
+                  <div class="block-group">
+                    <div class="block">
+                      <small>Move and Resize</small>
+                    </div>
+                    <div class="actions">
+                      <button title="Move to Left" onClick={() => (this.activePosition = 'left')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM8 7V17H6V7H8Z"></path>
+                        </svg>
+                      </button>
+                      <button title="Move to Right" onClick={() => (this.activePosition = 'right')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 7V17H16V7H18Z"></path>
+                        </svg>
+                      </button>
+                      <button title="Move to Top" onClick={() => (this.activePosition = 'top')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 7V9H6V7H18Z"></path>
+                        </svg>
+                      </button>
+                      <button title="Move to Bottom" onClick={() => (this.activePosition = 'bottom')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 15V17H6V15H18Z"></path>
+                        </svg>
+                      </button>
+                      <button title="Make Full Screen" onClick={() => (this.isMaximized = !this.isMaximized)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM5 5V19H19V5H5Z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <button class="juno-size-button close-button" onClick={() => chatActions.closeChat()}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
