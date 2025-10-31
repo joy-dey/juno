@@ -22,6 +22,10 @@ export const config: Config = {
       type: 'docs-readme',
     },
   ],
+  extras: {
+    appendChildSlotFix: true,
+    cloneNodeFix: true,
+  },
   testing: {
     browserHeadless: 'shell',
   },
