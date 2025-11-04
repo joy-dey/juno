@@ -252,27 +252,57 @@ export class ChatArea {
                       <small>Move and Resize</small>
                     </div>
                     <div class="actions">
-                      <button title="Move to Left" onClick={() => (this.activePosition = 'left')}>
+                      <button
+                        title="Move to Left"
+                        onClick={() => {
+                          this.activePosition = 'left';
+                          this.isResizePopupOpen = false;
+                        }}
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM8 7V17H6V7H8Z"></path>
                         </svg>
                       </button>
-                      <button title="Move to Right" onClick={() => (this.activePosition = 'right')}>
+                      <button
+                        title="Move to Right"
+                        onClick={() => {
+                          this.activePosition = 'right';
+                          this.isResizePopupOpen = false;
+                        }}
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 7V17H16V7H18Z"></path>
                         </svg>
                       </button>
-                      <button title="Move to Top" onClick={() => (this.activePosition = 'top')}>
+                      <button
+                        title="Move to Top"
+                        onClick={() => {
+                          this.activePosition = 'top';
+                          this.isResizePopupOpen = false;
+                        }}
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 7V9H6V7H18Z"></path>
                         </svg>
                       </button>
-                      <button title="Move to Bottom" onClick={() => (this.activePosition = 'bottom')}>
+                      <button
+                        title="Move to Bottom"
+                        onClick={() => {
+                          this.activePosition = 'bottom';
+                          this.isResizePopupOpen = false;
+                        }}
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V19H20V5ZM18 15V17H6V15H18Z"></path>
                         </svg>
                       </button>
-                      <button title="Make Full Screen" onClick={() => (this.isMaximized = !this.isMaximized)}>
+                      <button
+                        title="Make Full Screen"
+                        onClick={() => {
+                          this.isMaximized = !this.isMaximized;
+                          this.isResizePopupOpen = false;
+                        }}
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M4 3H20C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM5 5V19H19V5H5Z"></path>
                         </svg>
