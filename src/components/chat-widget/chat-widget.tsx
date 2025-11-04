@@ -212,6 +212,15 @@ export class ChatWidget {
             onSentMessage={event => this.sendMessage(event.detail)}
             onRequestSocketReconnection={() => {
               this.reconnectAttempts = 0;
+              if (this.socket) {
+                this.socket.onclose = null;
+                this.socket.onerror = null;
+                this.socket.onmessage = null;
+                this.socket.onopen = null;
+
+                this.socket.close();
+                this.socket = null;
+              }
               this.connectWebSocket();
             }}
           ></chat-area>
