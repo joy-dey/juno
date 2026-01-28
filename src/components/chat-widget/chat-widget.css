@@ -43,6 +43,8 @@
 
   svg {
     fill: var(--fill);
+    width: calc(var(--width) / 2);
+    height: calc(var(--height) / 2);
   }
 
   &:hover {
