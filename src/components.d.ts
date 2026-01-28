@@ -44,6 +44,10 @@ export namespace Components {
          */
         "disclaimerText": string;
         /**
+          * @default '56px'
+         */
+        "height": string;
+        /**
           * @default 5
          */
         "maxReconnectAttempts": number;
@@ -51,6 +55,10 @@ export namespace Components {
           * @default ''
          */
         "socketURL": string;
+        /**
+          * @default '56px'
+         */
+        "width": string;
     }
     interface TypingIndicator {
     }
@@ -144,6 +152,10 @@ declare namespace LocalJSX {
          */
         "disclaimerText"?: string;
         /**
+          * @default '56px'
+         */
+        "height"?: string;
+        /**
           * @default 5
          */
         "maxReconnectAttempts"?: number;
@@ -151,6 +163,10 @@ declare namespace LocalJSX {
           * @default ''
          */
         "socketURL"?: string;
+        /**
+          * @default '56px'
+         */
+        "width"?: string;
     }
     interface TypingIndicator {
     }
