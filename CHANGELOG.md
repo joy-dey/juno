@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/joy-dey/juno/compare/v1.1.0...v1.4.0) (2026-01-28)
+
+
+### Features
+
+* **chat-area:** add resizing options and position controls for chat area ([b08e90c](https://github.com/joy-dey/juno/commit/b08e90c459e6defca3b83f768fac6e2ade3cfacf))
+* **chat-area:** enhance button actions to close resize popup on position change ([bfc5bf0](https://github.com/joy-dey/juno/commit/bfc5bf0f129eec74cb417797447572069fcb6bec))
+* **chat-widget:** add late response messages for improved user interaction ([ee90a2b](https://github.com/joy-dey/juno/commit/ee90a2bc153e091e5d890c28669147692b64dce9))
+* **chat-widget:** add width and height props for customization ([c57b1c2](https://github.com/joy-dey/juno/commit/c57b1c23b2ba896f5c7cac22a2c5b98cb2979639))
+
+
+### Bug Fixes
+
+* **chat-bubble:** ensure isSpeaking state resets when speech ends ([42be764](https://github.com/joy-dey/juno/commit/42be764fdfb86c210b5c2d2b9ae23cc9d8bc802e))
+* **chat-widget:** enable buildEs5 for better compatibility ([20703ef](https://github.com/joy-dey/juno/commit/20703effd08467472564e543196902ee67ae7d4f))
+* **chat-widget:** properly close WebSocket connections on reconnection ([860812d](https://github.com/joy-dey/juno/commit/860812d3edf80c2881619f4d108b0111c0c4f609))
+* **config:** add extras for appendChildSlot and cloneNode fixes ([5172931](https://github.com/joy-dey/juno/commit/51729316bde86ec6068efb0b403e0830750db0ec))
+* **config:** update TypeScript configuration for better compatibility ([1bc534a](https://github.com/joy-dey/juno/commit/1bc534aba3d7f236d144203c3ba2dafc2fb27f4c))
+
 ## [1.1.0](https://github.com/joy-dey/juno/compare/v1.0.0...v1.1.0) (2025-07-18)
 
 
